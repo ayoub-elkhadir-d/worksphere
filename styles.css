@@ -1,11 +1,43 @@
+body{
+    padding: 30px;
+}
+
+.container{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+.right_bar{
+    width: 400px;
+    background: #ffcd28;
+    padding: 10px;
+    gap: 10px;
+}
+.right_bar input{
+    height: 40px;
+    padding: 10px;
+    border-radius: 10px;
+}
+.right_bar select{
+    height: 40px;
+    padding: 10px;
+    border-radius: 10px;
+}
+#image_container img{
+    align-self: center;
+    border:red solid 2px;
+    border-radius: 50%;
+}
 
 .parent {
+    flex: 1; 
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
     gap: 8px;
+    border: black solid 5px;
 }
-    
 .div1 {
     height: 200px;
     background-color: aquamarine;
