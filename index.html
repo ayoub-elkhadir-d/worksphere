@@ -23,7 +23,7 @@
     </div> -->
 
 
-     <h3 style="text-align: center;">persone informations</h3>
+     <label style="align-self: center; font-weight: 800; font-size: 1.5rem; ">Personel info</label>
     <div id="info_persone"style="display: flex; flex-direction: column; gap:10px" >
     <input type="text" name="first name" id="input_name" placeholder="entre nome">
     <select name="" id="">
@@ -34,27 +34,28 @@
         <option value="">Rôle 5</option>
     </select>
 
-    <div id="image_container" style="display: flex; flex-direction: row; gap: 10px; align-items: center;">
+    <div id="image_container" style="display: flex; flex-direction: row; gap: 10px; align-items: center; justify-content: space-evenly;">
         <input type="url" name="image url" id="input_img_url" placeholder="Url image">
-    <img src="/imges/persone.png" style="width: 50px;" alt="">
+    <img src="https://img.freepik.com/premium-photo/web-developer-logo-design_616879-7545.jpg?w=2000" style="width: 70px;" id="image_persone">
 
     </div>
 
-    <div id="container_form_experience" style="display: flex; flex-direction: column; gap: 10px; border: 2px solid black; padding: 5px; border-radius: 5px;">
+    <div id="container_form_experience" style="display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52);">
+   <label style="align-self: center; font-weight: 800; font-size: 1.5rem; ">Experience</label>
     <input type="text" id="input_company" name="company" placeholder="entre company">
     <input type="rolr" placeholder="entre role" name="role experience" id="role_experience">
     <input type="date" id="date_from" name="date from" placeholder="date from">
     <input type="date" id="date_to" name="date to" placeholder="date to">
-    <button style="width: fit-content;height: 40px; background-color: rgba(255, 255, 255, 0.374); border-radius: 10px; align-self: center;" id="button_add_ex">add experience</button>
+    <button style="width: fit-content;height: 40px; background-color: #41cc4d;  border: none; border-radius: 10px;  color: white; font-size: 0.8rem; align-self: center;" id="button_add_ex">add experience</button>
     </div>
 
     <input type="email" id="input_mail" name="Email" placeholder="entre email">
     <input type="tel" placeholder="entre num tel" name="telephone" id="number_tel">
     </div>
 
-    <div id="container_buttons" style="display: flex;">
-    <button style="width: 100%;height: 40px; background-color: rgba(255, 255, 255, 0.374); border-radius: 10px;">cancel</button>
-    <button style="width: 100%;height: 40px; background-color: rgba(128, 255, 0, 0.374); border-radius: 10px;" id="buton_submit">save</button>
+    <div id="container_buttons" style="display: flex; gap: 10px;">
+    <button style="width: 100%;height: 40px; background-color: #f95959; border: none; border-radius: 10px;  color: white; font-size: 1.2rem;">cancel</button>
+    <button style="width: 100%;height: 40px; background-color: #2596be; border: none; border-radius: 10px; color: white; font-size: 1.2rem;" id="buton_submit">save</button>
 
     </div> 
 </div>

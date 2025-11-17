@@ -3,6 +3,7 @@ let input_name = document.getElementById("input_name")
 let input_img_url = document.getElementById("input_img_url")
 let input_email = document.getElementById("input_mail")
 let input_num_tele = document.getElementById("number_tel")
+let Image_Persone = document.getElementById("image_persone")
 let allinputs = document.querySelectorAll("input")
 let button_submit = document.getElementById("buton_submit")
 
@@ -23,19 +24,25 @@ let nome_regex =/^[A-Za-z]+(?: [A-Za-z]+)*$/
 let all_data=[]
 let  experience = []
 
-input_lisner(input_email , email_regex)
-input_lisner(input_num_tele , number_regex)
 
-
-
-function input_lisner(input , regex){
-input.addEventListener("keyup",()=>{
-
-  if(!regex.test(input)){
-     input.style.border="solid 3px red"
-  }
-})
+function addValidationListener(input, regex) {
+  input.addEventListener("input", () => {
+    if (input.value.trim() === "") {
+      input.classList.remove("valid-input", "invalid-input");
+    } else if (regex.test(input.value.trim())) {
+      input.classList.add("valid-input");
+      input.classList.remove("invalid-input");
+    } else {
+      input.classList.add("invalid-input");
+      input.classList.remove("valid-input");
+    }
+  });
 }
+
+    addValidationListener(input_email, email_regex);
+    addValidationListener(input_num_tele, number_regex);
+    addValidationListener(input_name, nome_regex);
+
 function is_valid() {
   let is_valid=(
   input_name.value!=""
@@ -48,12 +55,19 @@ function is_valid() {
   date_to.value!="")
   return is_valid
 }
+function Disply_Img(){
+    input_img_url.addEventListener("keyup",()=>{
+    Image_Persone.src=`${input_img_url.value}`
 
-  
+  })
+}
+Disply_Img()
   
 function clear_inputs(inputs){
 for(allinputs_ of inputs){
     allinputs_.value=""
+    allinputs_.classList.remove("invalid-input");
+    allinputs_.classList.remove("valid-input");
 } 
 }
 
@@ -93,12 +107,10 @@ clear_inputs(form_add_ex_inputs)
 })
 
 button_submit.addEventListener("click",()=>{
-
-
   for(inputs of allinputs){
-   
     if(inputs.value==""){
-     inputs.style.border="solid 2px red"
+      inputs.classList.add("invalid-input");
+      inputs.classList.remove("valid-input");
     }
   }
   if(is_valid()){
