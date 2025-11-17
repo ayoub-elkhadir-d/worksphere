@@ -8,27 +8,40 @@
 <body>
   
 <div class="container" >
-<div class="right_bar" id="right_bar" style="display: flex; flex-direction: column; justify-content: space-evenly;">
+<div class="right_bar" id="right_bar" style="display: flex; flex-direction: column; ">
 
-    <h3 style="text-align: center;">persone informations</h3>
+    <!-- <div style="display: flex; justify-content: space-evenly; border: 2px black solid; padding: 5px; border-radius: 10px;">
+        <div>
+        <img src="/imges/persone.png" alt="" style="width: 50px;">
+        </div>
+          <div>
+            <h1 style="padding: 0px; margin: 0px; font-size: 20px;">adel hekkk</h1>
+            <h1 style="padding: 0px; margin: 0px; font-size: 15px;">developer</h1>
+            <h1 style="padding: 0px; margin: 0px; font-size: 12px;">jhgvcvbn</h1>
+          </div>
+          <button>edit</button>
+    </div> -->
+
+
+     <h3 style="text-align: center;">persone informations</h3>
     <div id="info_persone"style="display: flex; flex-direction: column; gap:10px" >
-    <input type="text" placeholder="entre nome">
+    <input type="text" name="first name" id="input_name" placeholder="entre nome">
     <select name="" id="">
         <option value="">Rôle</option>
     </select>
     <div id="image_container" style="display: flex; flex-direction: column; gap: 10px;">
-        <input type="url" name="" id="input_img_url" placeholder="Url image">
+        <input type="url" name="image url" id="input_img_url" placeholder="Url image">
     <img src="/imges/persone.png" style="width: 50px;" alt="">
 
     </div>
-    <input type="email" id="input_mail" placeholder="entre email">
-    <input type="tel" placeholder="entre num tel">
+    <input type="email" id="input_mail" name="Email" placeholder="entre email">
+    <input type="tel" placeholder="entre num tel" name="telephone" id="number_tel">
     </div>
     <div id="container_buttons" style="display: flex;">
-        <button style="width: 100%;height: 40px; background-color: rgba(255, 255, 255, 0.374); border-radius: 10px;">cancel</button>
-    <button style="width: 100%;height: 40px; background-color: rgba(128, 255, 0, 0.374); border-radius: 10px;">add</button>
+    <button style="width: 100%;height: 40px; background-color: rgba(255, 255, 255, 0.374); border-radius: 10px;">cancel</button>
+    <button style="width: 100%;height: 40px; background-color: rgba(128, 255, 0, 0.374); border-radius: 10px;" id="buton_submit">save</button>
 
-    </div>
+    </div> 
 </div>
 <div class="parent">
     <div class="div1">1</div>
@@ -42,5 +55,5 @@
 </div>
  </div>   
 </body>
-<script src="work.js"></script>
+<script src="work.js">  </script>
 </html>
