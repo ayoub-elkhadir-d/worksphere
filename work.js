@@ -5,6 +5,12 @@ let input_email = document.getElementById("input_mail")
 let input_num_tele = document.getElementById("number_tel")
 let allinputs = document.querySelectorAll("input")
 let button_submit = document.getElementById("buton_submit")
+
+let input_company = document.getElementById("input_company")
+let role_experience = document.getElementById("role_experience")
+let date_from = document.getElementById("date_from")
+let date_to = document.getElementById("date_to")
+
 let email_regex =/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 let number_regex =/^\+?[1-9]\d{1,14}$/
 let nome_regex =/^[A-Za-z]+(?: [A-Za-z]+)*$/  
@@ -28,12 +34,21 @@ input.addEventListener("keyup",()=>{
 
 
 function get_data(){
+ let  experience = []
     let employee = {
       "name" : input_name.value,
       "email" : input_email.value,
       "input_img_url" : input_img_url.value,
-      "input_num_tele" : input_num_tele.value
+      "input_num_tele" : input_num_tele.value,
+      "experience":experience
 }
+    let experience_o = {
+      "company" : input_company.value,
+      "role experience" : role_experience.value,
+      "date from" : date_from.value,
+      "date to" : date_to.value,
+}
+experience.push(experience_o)
 all_data.push(employee)
 return all_data
 }
@@ -45,7 +60,6 @@ let return_ = false
     if(inputs.value==""){
      inputs.style.border="solid 2px red"
     }
-
     else{
       return_ = true
     }
