@@ -8,6 +8,8 @@ let Select_Role = document.getElementById("Slect_role")
 let allinputs = document.querySelectorAll("input")
 let button_submit = document.getElementById("buton_submit")
 
+let disply_workers_container = document.getElementById("disply_workers")
+let display_add_worker = document.getElementById("container_add_worker")
 let button_add_ex_ = document.getElementById("button_add_ex")
 
 let input_company = document.getElementById("input_company")
@@ -18,8 +20,7 @@ let date_to = document.getElementById("date_to")
 let form_add_ex_=document.getElementById("container_form_experience")
 let form_add_ex_inputs=form_add_ex_.querySelectorAll("input")
 
-let Users_Data =localStorage.getItem("users")||[]
-let Parsed_data =JSON.parse(Users_Data)
+let Parsed_data = JSON.parse(localStorage.getItem("users") || "[]");
 
 let email_regex =/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 let number_regex =/^\+?[1-9]\d{1,14}$/
@@ -117,7 +118,6 @@ if(is_valid()){
 experience.push(experience_o)
 clear_inputs(form_add_ex_inputs)
 }
-
 })
 
 button_submit.addEventListener("click",()=>{
@@ -131,17 +131,21 @@ button_submit.addEventListener("click",()=>{
   console.log(is_valid())
   if(is_valid()){
     localStorage.setItem("users",JSON.stringify(get_data()))
-    //localStorage.removeItem("users")
+
      clear_inputs(allinputs)
+     window.location.reload()
+     
   }else return
 
 })
 
-
+if(disply_workers_container.style.display=="block"){
+  disply_workers_container.style.height="70vh"
+}
 function Disply_Workers(){
-  nav_bar.innerHTML=""
+  
   for(User of Parsed_data){
-    nav_bar.innerHTML +=
+    disply_workers_container.innerHTML +=
     `<div style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52) ;padding: 15px 0px; border-radius: 10px; align-items: center;">
         <div>
         <img src="${User.input_img_url}" alt="" style="width: 50px;">
@@ -156,5 +160,39 @@ function Disply_Workers(){
     </div>
     `
   }
+disply_workers_container.innerHTML += `
+  <button
+  id="add_worker";
+  style="
+    position: sticky;
+    bottom: 0;
+    height: 40px;
+    padding: 0 !important;
+    line-height: 40px;
+    width: 50%;
+    background-color: #41cc4d;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-top: 10px;
+    display: block;
+  ">
+    add worker
+  </button>
+`; 
+
+add_worker.addEventListener("click",()=>{
+nav_bar.style.height="fit-content"
+ disply_workers_container.style.display="none"
+  display_add_worker.style.display="block"
+})
+document.getElementById("button_cancel").addEventListener("click",()=>{
+  display_add_worker.style.display="none"
+  disply_workers_container.style.display="block"
+})
 }
+
 Disply_Workers()
+    //localStorage.removeItem("users")
