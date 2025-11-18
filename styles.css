@@ -93,8 +93,6 @@ h1{
 .chases_2{
     height:fit-content;
     text-align: center;
-   
-   
 }
 .cheses{
    display: flex;
@@ -115,9 +113,12 @@ h1{
 .div4 {
       background-color: aquamarine;
     grid-row: span 2 / span 2;
-
+display: flex;
+justify-content: space-evenly;
     grid-column-start: 4;
       background-image: url("imges/zlij_2.png");
+}
+.khizana{
 }
 
 .div5 {
@@ -129,14 +130,25 @@ h1{
 }
 
 .div6 {
+    display: flex;
+   position: relative;
       background-color: aquamarine;
     grid-row: span 2 / span 2;
     grid-column-start: 4;
     grid-row-start: 4;
       background-image: url("imges/zlij_2.png");
 }
+.fotai_1{
+position: absolute;
+bottom: 0px;
+right: 0px;
 
+}
+.img_tele_2{
+    align-self: center;
+}
 .div7 {
+    position: relative;
       background-color: aquamarine;
     grid-column: span 2 / span 2;
     grid-row: span 3 / span 3;
@@ -144,7 +156,22 @@ h1{
     grid-row-start: 3;
     background-image: url("imges/zlij_2.png");
 }
+.table_3{
+    position: absolute;
+    left: 80px;
+    top: 80px;
+    width: 150px;
+    height: 150px;
+}
 
+.biro_3{
+    width: 150px;
+    height: 130px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    transform: rotate(180deg);
+}
 .div8 {
       background-color: aquamarine;
     grid-row: span 2 / span 2;
@@ -153,18 +180,43 @@ h1{
     background-image: url("imges/zlij_2.png");
 }
 
+.biraux_8{
+align-self: flex-end;
+}
+
 .div9 {
       background-color: aquamarine;
     grid-row: span 2 / span 2;
     grid-column-start: 5;
+
     grid-row-start: 4;
     background-image: url("imges/zlij_2.png");
+    display: flex;
+    gap: 10px;
     
+}
+.khizana_2{
+    width: 90;
 }
 @media (max-width: 1279px) {
     .container {
      flex-direction: column;
      transition: all 5s;
+}
+.table_3{
+
+    width: 110px;
+    height: 110px;
+}
+.ches_3{
+    width: 150px;
+    height: 150px;  
+}
+.biro_3{
+    width: 90px;
+    height: 90px;
+    
+    transform: rotate(180deg);
 }
 .right_bar{
     width: 60%;
@@ -176,6 +228,33 @@ h1{
     height: 600px;
     transform: rotate(90deg);
    }
+   .table_3{
+
+    width: 90px;
+    height: 90px;
+}
+.ches_3{
+    width: 110px;
+    height: 110px;  
+}
+.biro_3{
+    width: 90px;
+    height: 90px;
+    
+    transform: rotate(180deg);
+}
+
+
+.ches_1{
+height: 10px;
+}
+.table_1{
+     width: 130px;
+    height: 90px; 
+}
+}
+.img_tele{
+    width: 20px;
 }
 @media (max-width: 750px) {
    .parent{
@@ -193,7 +272,20 @@ h1{
 @media (max-width: 360px) {
    .parent{
     width: 200px;
-    height: 200px;
-    
+    height: 200px; 
    }
+   .table_3{
+    width: 50px;
+    height: 50px;
+}
+.ches_3{
+    width: 50px;
+    height: 50px;  
+}
+.biro_3{
+    width: 30px;
+    height: 30px;
+    
+    transform: rotate(180deg);
+}
 }   
