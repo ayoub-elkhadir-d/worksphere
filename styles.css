@@ -3,14 +3,15 @@ body{
 }
 
 .container{
-    width: 100%;
+    
     display: flex;
     gap: 10px;
+   
 }
 
 
 .right_bar{
-    width: 400px;
+    width:20%;
     background: #ffffff;
     box-shadow: 0px 0px 10px rgb(80, 80, 80);
     padding: 20px;
@@ -65,15 +66,18 @@ h1{
     margin: 0px;
 }
 .parent {
-    flex: 1; 
+    width: 79%;        
+    height: 600px;       
+ 
+    flex-shrink: 0;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: 1fr 1fr 0.5fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 0.5fr 1fr 1fr;
     gap: 8px;
     border: black solid 5px;
 }
 .div1 {
-    height: 200px;
+    
     background-color: aquamarine;
     grid-column: span 2 / span 2;
     grid-row: span 2 / span 2;
@@ -81,6 +85,7 @@ h1{
 
 .div2 {
       background-color: aquamarine;
+      
     grid-row: span 5 / span 5;
     grid-column-start: 3;
 }
@@ -88,6 +93,7 @@ h1{
 .div4 {
       background-color: aquamarine;
     grid-row: span 2 / span 2;
+
     grid-column-start: 4;
 }
 
@@ -125,5 +131,41 @@ h1{
     grid-row: span 2 / span 2;
     grid-column-start: 5;
     grid-row-start: 4;
+    
 }
-        
+@media (max-width: 1279px) {
+    .container {
+     flex-direction: column;
+     transition: all 5s;
+}
+.right_bar{
+    width: 60%;
+}
+}
+@media (max-width: 1024px) {
+   .parent{
+    width: 600px;
+    height: 600px;
+    transform: rotate(90deg);
+   }
+}
+@media (max-width: 750px) {
+   .parent{
+    width: 450px;
+    height: 450px;
+   
+   }
+}
+@media (max-width: 480px) {
+   .parent{
+    width: 350px;
+    height: 350px;
+   }
+}
+@media (max-width: 360px) {
+   .parent{
+    width: 200px;
+    height: 200px;
+    
+   }
+}   

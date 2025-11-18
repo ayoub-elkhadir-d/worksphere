@@ -61,6 +61,7 @@ function Disply_Img(){
 
   })
 }
+
 Disply_Img()
   
 function clear_inputs(inputs){
@@ -113,11 +114,12 @@ button_submit.addEventListener("click",()=>{
       inputs.classList.remove("valid-input");
     }
   }
+
+  console.log(is_valid())
   if(is_valid()){
-    
     console.log(get_data())
      clear_inputs(allinputs)
-  }
+  }else return
 
 })
 
