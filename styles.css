@@ -77,15 +77,37 @@ h1{
     border: black solid 5px;
 }
 .div1 {
-    
+    position: relative;
     background-color: aquamarine;
     grid-column: span 2 / span 2;
     grid-row: span 2 / span 2;
+    background-image: url("imges/zlij_2.png");
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
+.chases_1{
+    height:fit-content;
+    text-align: center;
+}
+.chases_2{
+    height:fit-content;
+    text-align: center;
+   
+   
+}
+.cheses{
+   display: flex;
+   flex-direction: column;
+   gap: 5px;
+}
+.img_tele{
+    position: absolute;
+    left: 0px;
+}
 .div2 {
       background-color: aquamarine;
-      
+      background-image: url("imges/bg_zlij.png");
     grid-row: span 5 / span 5;
     grid-column-start: 3;
 }
@@ -95,6 +117,7 @@ h1{
     grid-row: span 2 / span 2;
 
     grid-column-start: 4;
+      background-image: url("imges/zlij_2.png");
 }
 
 .div5 {
@@ -102,6 +125,7 @@ h1{
     grid-column: span 2 / span 2;
     grid-column-start: 4;
     grid-row-start: 3;
+    background-image: url("imges/bg_zlij.png");
 }
 
 .div6 {
@@ -109,6 +133,7 @@ h1{
     grid-row: span 2 / span 2;
     grid-column-start: 4;
     grid-row-start: 4;
+      background-image: url("imges/zlij_2.png");
 }
 
 .div7 {
@@ -117,6 +142,7 @@ h1{
     grid-row: span 3 / span 3;
     grid-column-start: 1;
     grid-row-start: 3;
+    background-image: url("imges/zlij_2.png");
 }
 
 .div8 {
@@ -124,6 +150,7 @@ h1{
     grid-row: span 2 / span 2;
     grid-column-start: 5;
     grid-row-start: 1;
+    background-image: url("imges/zlij_2.png");
 }
 
 .div9 {
@@ -131,6 +158,7 @@ h1{
     grid-row: span 2 / span 2;
     grid-column-start: 5;
     grid-row-start: 4;
+    background-image: url("imges/zlij_2.png");
     
 }
 @media (max-width: 1279px) {
