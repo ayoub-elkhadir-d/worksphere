@@ -29,8 +29,46 @@ let nome_regex =/^[A-Za-z]+(?: [A-Za-z]+)*$/
 let  experience = []
 let Role_Selected=""
 
+let _Salle_de_conférence = document.getElementById("Salle_de_conférence")
+let _Réception = document.getElementById("Réception")
+let _Salle_des_serveurs = document.getElementById("Salle_des_serveurs")
+let _Salle_de_sécurité = document.getElementById("Salle_de_sécurité")
+let _Salle_du_personnel = document.getElementById("Salle_du_personnel")
+let _Salle_darchives = document.getElementById("Salle_darchives")
+
+_Salle_de_conférence.addEventListener("click",()=>{
+
+
+})
+_Réception.addEventListener("click",()=>{
+
+  Disply_worker_by_role("Réception")
+ 
+})
+_Salle_des_serveurs.addEventListener("click",()=>{
+
+  
+   Disply_worker_by_role("serveurs")
+})
+_Salle_de_sécurité.addEventListener("click",()=>{
+
+  
+   Disply_worker_by_role("sécurité")
+})
+_Salle_du_personnel.addEventListener("click",()=>{
+
+  
+   Disply_worker_by_role("Manager")
+})
+_Salle_darchives.addEventListener("click",()=>{
+
+  
+   Disply_worker_by_role("Nettoyage")
+})
+
 Select_Role.addEventListener("change",()=>{
 Role_Selected=Select_Role.value
+
 })
 
 
@@ -141,6 +179,28 @@ button_submit.addEventListener("click",()=>{
 
 if(disply_workers_container.style.display=="block"){
   disply_workers_container.style.height="70vh"
+}
+function Disply_worker_by_role(role){
+disply_workers_container.innerHTML =""
+
+    for(User of Parsed_data){
+      if(User.role==role){
+    disply_workers_container.innerHTML +=
+    `<div style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52) ;padding: 15px 0px; border-radius: 10px; align-items: center;">
+        <div>
+        <img src="${User.input_img_url}" alt="" style="width: 50px;">
+        </div>
+          <div style="display: flex; flex-direction: column; gap: 10px;">
+            <h1 style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
+            <div style="display: flex;">
+                <h1 style="padding: 0px; margin: 0px; font-size: 12px;">${User.role} | <span style="background-color: lawngreen; padding: 4px; border-radius: 5px; margin: 0px 10px;">pointed</span> </h1>
+            </div>
+          </div>
+          <button style="background-image: url(imges/edit.png); height: 30px; width:30px ;border: none; "></button>
+    </div>
+    `
+  }else continue
+  }
 }
 function Disply_Workers(){
   
