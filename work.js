@@ -4,6 +4,7 @@ let input_img_url = document.getElementById("input_img_url")
 let input_email = document.getElementById("input_mail")
 let input_num_tele = document.getElementById("number_tel")
 let Image_Persone = document.getElementById("image_persone")
+let Select_Role = document.getElementById("Slect_role")
 let allinputs = document.querySelectorAll("input")
 let button_submit = document.getElementById("buton_submit")
 
@@ -17,12 +18,28 @@ let date_to = document.getElementById("date_to")
 let form_add_ex_=document.getElementById("container_form_experience")
 let form_add_ex_inputs=form_add_ex_.querySelectorAll("input")
 
+let Users_Data =localStorage.getItem("users")||[]
+let Parsed_data =JSON.parse(Users_Data)
+
 let email_regex =/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 let number_regex =/^\+?[1-9]\d{1,14}$/
 let nome_regex =/^[A-Za-z]+(?: [A-Za-z]+)*$/  
 
 let all_data=[]
+
 let  experience = []
+let Role_Selected=""
+
+Select_Role.addEventListener("change",()=>{
+Role_Selected=Select_Role.value
+
+console.log(Parsed_data)
+// for(user of JSON.parse(Users_Data) ){
+
+// }
+  // 
+})
+
 
 
 function addValidationListener(input, regex) {
@@ -45,8 +62,9 @@ function addValidationListener(input, regex) {
 
 function is_valid() {
   let is_valid=(
-  input_name.value!=""
-  &&input_email.value!=""&&
+  input_name.value!=""&&
+  input_email.value!=""&&
+  Role_Selected !=""&&
   input_img_url.value!=""&&
   input_num_tele.value!=""
   &&input_company.value!=""
@@ -78,7 +96,8 @@ function get_data(){
       "email" : input_email.value,
       "input_img_url" : input_img_url.value,
       "input_num_tele" : input_num_tele.value,
-      "experience":experience
+      "experience":experience,
+      "role":Role_Selected
 }
 
     let experience_o = {
@@ -88,8 +107,9 @@ function get_data(){
       "date to" : date_to.value,
 }
 experience.push(experience_o)
-all_data.push(employee)
-return all_data
+Parsed_data.push(employee)
+
+return Parsed_data
 }
 
 button_add_ex_.addEventListener("click",()=>{
@@ -117,7 +137,9 @@ button_submit.addEventListener("click",()=>{
 
   console.log(is_valid())
   if(is_valid()){
-    console.log(get_data())
+  
+    localStorage.setItem("users",JSON.stringify(get_data()))
+    //localStorage.removeItem("users")
      clear_inputs(allinputs)
   }else return
 
