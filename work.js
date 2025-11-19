@@ -56,6 +56,29 @@ let container_Salle_darchives = document.getElementById("display_persons_d’arc
 
 let currentRoomDiv = null;
 
+function update_data_in_localstorage(){
+    
+    localStorage.setItem("users",JSON.stringify(Parsed_data))
+}
+
+function get_data_from_localstorage_and_disply(){
+    for(emp of Parsed_data){
+       if(emp.is_pointed==true){
+        console.log()
+   document.getElementById(emp.zone_worked).innerHTML+=
+        `
+                    <div id="profile" data-id="${emp.id}" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
+                        <span style="font-weight: 800;">${emp.name}</span>
+                    <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${emp.input_img_url}" alt="">
+                    <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
+                    </div> 
+                        
+                    
+        `
+       }
+    }
+}
+get_data_from_localstorage_and_disply()
 // Function to show add worker modal
 function showAddWorkerModal() {
     nav_bar.style.height = "fit-content";
@@ -87,7 +110,17 @@ _Salle_des_serveurs.addEventListener("click", () => {
 })
 container_Réception.addEventListener("click",(e)=>{
 const card=e.target.closest("#profile")
-let id = card.querySelector()
+const id_cliked  = card.dataset.id
+const zone_container =card.closest("#display_persons_Réception")
+
+for(emploiyer of Parsed_data){
+    if(emploiyer.id==id_cliked){
+        emploiyer.is_pointed=true
+        emploiyer.zone_worked=zone_container.id
+        update_data_in_localstorage()
+    }
+}
+
 })
 
 _Salle_de_sécurité.addEventListener("click", () => {
@@ -180,8 +213,10 @@ function clear_inputs(inputs){
     } 
 }
 
+
 function get_data(){
     let employee = {
+        "id":self.crypto.randomUUID(),
         "name" : input_name.value,
         "email" : input_email.value,
         "input_img_url" : input_img_url.value,
@@ -189,7 +224,7 @@ function get_data(){
         "experience": experience,
         "role": Role_Selected,
         "is_pointed": false,
-        "added_in":null
+        "zone_worked":null
 
     }
 
@@ -257,7 +292,7 @@ function Disply_worker_by_sale(sale,container_desplay_it){
                 for(let User of Parsed_data){
                     if(User.role==a){
                   container_desplay_it.innerHTML +=`
-                        <div id="profile" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
+                        <div id="profile" data-id="${User.id}" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
                         <span style="font-weight: 800;">${User.name}</span>
                     <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" alt="">
                     <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
@@ -272,6 +307,7 @@ function Disply_worker_by_sale(sale,container_desplay_it){
 
 function Disply_Workers(){
     for(let User of Parsed_data){
+    if(User.is_pointed==false){
         disply_workers_container.innerHTML +=
         `<div class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
         <div>
@@ -285,6 +321,7 @@ function Disply_Workers(){
                     </div>
                     <button style="background-image: url(imges/edit.png); height: 30px; width:30px; border: none;"></button>
                     </div>`
+                }
                 }
 
     disply_workers_container.innerHTML += `
