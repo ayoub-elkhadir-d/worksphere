@@ -64,7 +64,7 @@ function update_data_in_localstorage(){
 function get_data_from_localstorage_and_disply(){
     for(emp of Parsed_data){
        if(emp.is_pointed==true){
-        console.log()
+        console.log("t")
    document.getElementById(emp.zone_worked).innerHTML+=
         `
                     <div id="profile" data-id="${emp.id}" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
@@ -114,13 +114,23 @@ const id_cliked  = card.dataset.id
 const zone_container =card.closest("#display_persons_Réception")
 
 for(emploiyer of Parsed_data){
-    if(emploiyer.id==id_cliked){
+    if(emploiyer.id==id_cliked&&emploiyer.is_pointed==false){
+        console.log("false")
         emploiyer.is_pointed=true
         emploiyer.zone_worked=zone_container.id
         update_data_in_localstorage()
+        break;
+    }
+    
+    if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
+        console.log("true")
+        emploiyer.is_pointed=false
+        emploiyer.zone_worked=null
+        update_data_in_localstorage()
+        break
     }
 }
-
+ window.location.reload()
 })
 
 _Salle_de_sécurité.addEventListener("click", () => {
