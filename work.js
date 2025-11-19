@@ -47,6 +47,12 @@ let div_Salle_de_sécurité = document.getElementById("_Salle_de_sécurité")
 let div_Salle_du_personnel = document.getElementById("_Salle_du_personnel")
 let div_Salle_darchives = document.getElementById("_Salle_darchives")
 
+let container_Salle_de_conférence = document.getElementById("display_persons_conférence")
+let container_Réception = document.getElementById("display_persons_Réception")
+let container_Salle_des_serveurs = document.getElementById("display_persons_serveurs")
+let container_Salle_de_sécurité = document.getElementById("display_persons_sécurité")
+let container_Salle_du_personnel = document.getElementById("display_persons_personnel")
+let container_Salle_darchives = document.getElementById("display_persons_d’archives")
 
 let currentRoomDiv = null;
 
@@ -66,32 +72,36 @@ function hideAddWorkerModal() {
 }
 
 _Salle_de_conférence.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle de conférence")
+    Disply_worker_by_sale("Salle de conférence",container_Salle_de_conférence)
     currentRoomDiv = div_Salle_de_conférence
 })
 
 _Réception.addEventListener("click", () => {
-    Disply_worker_by_sale("Reception")
+    Disply_worker_by_sale("Reception",container_Réception)
     currentRoomDiv = div_Réception
 })
 
 _Salle_des_serveurs.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle des serveurs")
+    Disply_worker_by_sale("Salle des serveurs",container_Salle_des_serveurs)
     currentRoomDiv = div_Salle_des_serveurs
+})
+container_Réception.addEventListener("click",(e)=>{
+const card=e.target.closest("#profile")
+let id = card.querySelector()
 })
 
 _Salle_de_sécurité.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle de sécurité")
+    Disply_worker_by_sale("Salle de sécurité",container_Salle_de_sécurité)
     currentRoomDiv = div_Salle_de_sécurité
 })
 
 _Salle_du_personnel.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle du personnel")
+    Disply_worker_by_sale("Salle du personnel",container_Salle_du_personnel)
     currentRoomDiv = div_Salle_du_personnel
 })
 
 _Salle_darchives.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle d'archives")
+    Disply_worker_by_sale("Salle d'archives",container_Salle_darchives)
     currentRoomDiv = div_Salle_darchives
 })
 
@@ -218,7 +228,7 @@ button_submit.addEventListener("click", () => {
     }
  
      if(is_valid()){
-      console.log("1")
+      
         localStorage.setItem("users",JSON.stringify(get_data()))
         clear_inputs(allinputs)
         window.location.reload()
@@ -229,8 +239,8 @@ if(disply_workers_container.style.display=="block"){
     disply_workers_container.style.height="70vh"
 }
 
-function Disply_worker_by_sale(sale){
-    disply_workers_container.innerHTML =""
+function Disply_worker_by_sale(sale,container_desplay_it){
+    container_desplay_it.innerHTML =""
     
     let roles = {
         "Reception": ["Manager", "Réceptionniste", "Nettoyage"],
@@ -246,19 +256,13 @@ function Disply_worker_by_sale(sale){
             for(let a of roomRoles){
                 for(let User of Parsed_data){
                     if(User.role==a){
-                        disply_workers_container.innerHTML +=
-                        `<div class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
-                        <div>
-                        <img src="${User.input_img_url}" alt="" style="width: 50px;">
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
-                        <div style="display: flex;">
-                        <h1 style="padding: 0px; margin: 0px; font-size: 12px;">${User.role} | <span style="background-color: lawngreen; padding: 4px; border-radius: 5px; margin: 0px 10px;">pointed</span></h1>
-                                  </div>
-                                  </div>
-                                  <button style="background-image: url(imges/edit.png); height: 30px; width:30px; border: none;"></button>
-                                  </div>`
+                  container_desplay_it.innerHTML +=`
+                        <div id="profile" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
+                        <span style="font-weight: 800;">${User.name}</span>
+                    <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" alt="">
+                    <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
+                    </div> 
+                        `
                     }
                 }
             }
