@@ -121,11 +121,15 @@ function addValidationListener(input, regex) {
         if (input.value.trim() === "") {
             input.classList.remove("valid-input", "invalid-input");
         } else if (regex.test(input.value.trim())) {
+
             input.classList.add("valid-input");
             input.classList.remove("invalid-input");
+
         } else {
+
             input.classList.add("invalid-input");
             input.classList.remove("valid-input");
+
         }
     });
 }
@@ -136,11 +140,11 @@ addValidationListener(input_name, nome_regex);
 
 function set_opacity(is_set){
   if(is_set){
-document.querySelector(".parent").style.opacity="0.2"
-document.querySelector(".worker").style.opacity="0.2"
+    document.querySelector(".parent").style.opacity="0.2"
+    document.querySelector(".worker").style.opacity="0.2"
   }else{
     document.querySelector(".parent").style.opacity="1"
-document.querySelector(".worker").style.opacity="1"
+    document.querySelector(".worker").style.opacity="1"
   }
 }
 
@@ -165,8 +169,6 @@ function clear_inputs(inputs){
         allinputs_.classList.remove("valid-input");
     } 
 }
-
-
 
 function get_data(){
     let employee = {
@@ -214,9 +216,7 @@ button_submit.addEventListener("click", () => {
             inputs.classList.remove("valid-input");
         }
     }
-   console.log(is_valid())
-  
-
+ 
      if(is_valid()){
       console.log("1")
         localStorage.setItem("users",JSON.stringify(get_data()))
@@ -259,7 +259,7 @@ function Disply_worker_by_sale(sale){
                                   </div>
                                   <button style="background-image: url(imges/edit.png); height: 30px; width:30px; border: none;"></button>
                                   </div>`
-                                }
+                    }
                 }
             }
         }
@@ -322,5 +322,3 @@ window.addEventListener('click', function(e) {
 });
 
 Disply_Workers()
-
-l
