@@ -10,7 +10,7 @@ let button_submit = document.getElementById("buton_submit")
 
 let container_ =document.querySelector(".container")
 let _container_add_worker =document.getElementById("container_add_worker")
-
+//localStorage.removeItem("users")
 let disply_workers_container = document.getElementById("disply_workers")
 let display_add_worker = document.getElementById("container_add_worker")
 let button_add_ex_ = document.getElementById("button_add_ex")
@@ -64,13 +64,13 @@ function update_data_in_localstorage(){
 function get_data_from_localstorage_and_disply(){
     for(emp of Parsed_data){
        if(emp.is_pointed==true){
-        console.log("t")
+        
    document.getElementById(emp.zone_worked).innerHTML+=
         `
                     <div id="profile" data-id="${emp.id}" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
                         <span style="font-weight: 800;">${emp.name}</span>
                     <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${emp.input_img_url}" alt="">
-                    <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
+                    <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/remove_circle_29dp_EA3323.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
                     </div> 
                         
                     
@@ -94,30 +94,17 @@ function hideAddWorkerModal() {
     set_opacity(false);
 }
 
-_Salle_de_conférence.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle de conférence",container_Salle_de_conférence)
-    currentRoomDiv = div_Salle_de_conférence
-})
-
-_Réception.addEventListener("click", () => {
-    Disply_worker_by_sale("Reception",container_Réception)
-    currentRoomDiv = div_Réception
-})
-
-_Salle_des_serveurs.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle des serveurs",container_Salle_des_serveurs)
-    currentRoomDiv = div_Salle_des_serveurs
-})
-container_Réception.addEventListener("click",(e)=>{
+ function add_click_to_elements_of_div(container_){
+    container_.addEventListener("click",(e)=>{
 const card=e.target.closest("#profile")
 const id_cliked  = card.dataset.id
-const zone_container =card.closest("#display_persons_Réception")
 
+console.log()
 for(emploiyer of Parsed_data){
     if(emploiyer.id==id_cliked&&emploiyer.is_pointed==false){
         console.log("false")
         emploiyer.is_pointed=true
-        emploiyer.zone_worked=zone_container.id
+        emploiyer.zone_worked=container_.id
         update_data_in_localstorage()
         break;
     }
@@ -132,6 +119,31 @@ for(emploiyer of Parsed_data){
 }
  window.location.reload()
 })
+}
+
+add_click_to_elements_of_div(container_Salle_de_conférence)
+add_click_to_elements_of_div(container_Réception)
+add_click_to_elements_of_div(container_Salle_des_serveurs)
+add_click_to_elements_of_div(container_Salle_de_sécurité)
+add_click_to_elements_of_div(container_Salle_du_personnel)
+add_click_to_elements_of_div(container_Salle_darchives)
+_Salle_de_conférence.addEventListener("click", () => {
+    Disply_worker_by_sale("Salle de conférence",container_Salle_de_conférence)
+    currentRoomDiv = div_Salle_de_conférence
+})
+
+_Réception.addEventListener("click", () => {
+    Disply_worker_by_sale("Reception",container_Réception)
+    currentRoomDiv = div_Réception
+    
+})
+
+_Salle_des_serveurs.addEventListener("click", () => {
+    Disply_worker_by_sale("Salle des serveurs",container_Salle_des_serveurs)
+    currentRoomDiv = div_Salle_des_serveurs
+})
+
+
 
 _Salle_de_sécurité.addEventListener("click", () => {
     Disply_worker_by_sale("Salle de sécurité",container_Salle_de_sécurité)
@@ -300,13 +312,14 @@ function Disply_worker_by_sale(sale,container_desplay_it){
         if(room == sale){
             for(let a of roomRoles){
                 for(let User of Parsed_data){
-                    if(User.role==a){
-                  container_desplay_it.innerHTML +=`
+                    if(User.role==a && User.is_pointed==false){
+                       
+                       container_desplay_it.innerHTML +=`
                         <div id="profile" data-id="${User.id}" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
                         <span style="font-weight: 800;">${User.name}</span>
-                    <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" alt="">
-                    <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
-                    </div> 
+                        <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" alt="">
+                        <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add_circle_29dp_75FB4C.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
+                        </div> 
                         `
                     }
                 }
@@ -318,6 +331,7 @@ function Disply_worker_by_sale(sale,container_desplay_it){
 function Disply_Workers(){
     for(let User of Parsed_data){
     if(User.is_pointed==false){
+
         disply_workers_container.innerHTML +=
         `<div class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
         <div>
@@ -373,3 +387,4 @@ window.addEventListener('click', function(e) {
 });
 
 Disply_Workers()
+
