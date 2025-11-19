@@ -69,7 +69,7 @@ function get_data_from_localstorage_and_disply(){
         `
                     <div id="profile" data-id="${emp.id}" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
                         <span style="font-weight: 800;">${emp.name}</span>
-                    <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${emp.input_img_url}" alt="">
+                    <img style="width: 50px;height: 50px;border: none; border-radius: 100%;" src="${emp.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
                     <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/remove_circle_29dp_EA3323.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
                     </div> 
                         
@@ -180,6 +180,7 @@ function Disply_Img(){
     })
 }
 Disply_Img()
+
 
 function addValidationListener(input, regex) {
     input.addEventListener("input", () => {
@@ -315,9 +316,11 @@ function Disply_worker_by_sale(sale,container_desplay_it){
                     if(User.role==a && User.is_pointed==false){
                        
                        container_desplay_it.innerHTML +=`
+
                         <div id="profile" data-id="${User.id}" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
                         <span style="font-weight: 800;">${User.name}</span>
-                        <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" alt="">
+                        
+                        <img style="width: 50px;height: 50px; filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg); border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
                         <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add_circle_29dp_75FB4C.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
                         </div> 
                         `
