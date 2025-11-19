@@ -8,6 +8,9 @@ let Select_Role = document.getElementById("Slect_role")
 let allinputs = document.querySelectorAll("input")
 let button_submit = document.getElementById("buton_submit")
 
+let container_ =document.querySelector(".container")
+let _container_add_worker =document.getElementById("container_add_worker")
+
 let disply_workers_container = document.getElementById("disply_workers")
 let display_add_worker = document.getElementById("container_add_worker")
 let button_add_ex_ = document.getElementById("button_add_ex")
@@ -47,6 +50,20 @@ let div_Salle_darchives = document.getElementById("_Salle_darchives")
 
 let currentRoomDiv = null;
 
+// Function to show add worker modal
+function showAddWorkerModal() {
+    nav_bar.style.height = "fit-content";
+    disply_workers_container.style.display = "none";
+    display_add_worker.style.display = "block";
+    set_opacity(true);
+}
+
+// Function to hide add worker modal
+function hideAddWorkerModal() {
+    display_add_worker.style.display = "none";
+    disply_workers_container.style.display = "block";
+    set_opacity(false);
+}
 
 _Salle_de_conférence.addEventListener("click", () => {
     Disply_worker_by_sale("Salle de conférence")
@@ -78,6 +95,9 @@ _Salle_darchives.addEventListener("click", () => {
     currentRoomDiv = div_Salle_darchives
 })
 
+Select_Role.addEventListener("change",()=>{
+ Role_Selected=Select_Role.value
+})
 
 disply_workers_container.addEventListener("click", (e) => {
     const workerCard = e.target.closest(".worker");
@@ -86,6 +106,7 @@ disply_workers_container.addEventListener("click", (e) => {
         currentRoomDiv.innerText += name + " ";
     }
 })
+
 
 
 function Disply_Img(){
@@ -113,17 +134,27 @@ addValidationListener(input_email, email_regex);
 addValidationListener(input_num_tele, number_regex);
 addValidationListener(input_name, nome_regex);
 
+function set_opacity(is_set){
+  if(is_set){
+document.querySelector(".parent").style.opacity="0.2"
+document.querySelector(".worker").style.opacity="0.2"
+  }else{
+    document.querySelector(".parent").style.opacity="1"
+document.querySelector(".worker").style.opacity="1"
+  }
+}
+
 function is_valid() {
     return (
-        input_name.value !== "" &&
-        input_email.value !== "" &&
-        Role_Selected !== "" &&
-        input_img_url.value !== "" &&
-        input_num_tele.value !== "" &&
-        input_company.value !== "" &&
-        role_experience.value !== "" &&
-        date_from.value !== "" &&
-        date_to.value !== ""
+        input_name.value != "" &&
+        input_email.value != "" &&
+        Role_Selected != "" &&
+        input_img_url.value != "" &&
+        input_num_tele.value != "" &&
+        input_company.value != "" &&
+        role_experience.value != "" &&
+        date_from.value != "" &&
+        date_to.value != ""
     );
 }
 
@@ -135,6 +166,8 @@ function clear_inputs(inputs){
     } 
 }
 
+
+
 function get_data(){
     let employee = {
         "name" : input_name.value,
@@ -143,7 +176,9 @@ function get_data(){
         "input_num_tele" : input_num_tele.value,
         "experience": experience,
         "role": Role_Selected,
-        "is_pointed": false
+        "is_pointed": false,
+        "added_in":null
+
     }
 
     let experience_o = {
@@ -179,8 +214,11 @@ button_submit.addEventListener("click", () => {
             inputs.classList.remove("valid-input");
         }
     }
+   console.log(is_valid())
+  
 
-    if(is_valid()){
+     if(is_valid()){
+      console.log("1")
         localStorage.setItem("users",JSON.stringify(get_data()))
         clear_inputs(allinputs)
         window.location.reload()
@@ -193,7 +231,7 @@ if(disply_workers_container.style.display=="block"){
 
 function Disply_worker_by_sale(sale){
     disply_workers_container.innerHTML =""
-
+    
     let roles = {
         "Reception": ["Manager", "Réceptionniste", "Nettoyage"],
         "Salle des serveurs" : ["Manager", "Technicien IT", "Nettoyage"],
@@ -210,18 +248,18 @@ function Disply_worker_by_sale(sale){
                     if(User.role==a){
                         disply_workers_container.innerHTML +=
                         `<div class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
-                            <div>
-                                <img src="${User.input_img_url}" alt="" style="width: 50px;">
-                            </div>
-                            <div style="display: flex; flex-direction: column; gap: 10px;">
-                                <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
-                                <div style="display: flex;">
-                                    <h1 style="padding: 0px; margin: 0px; font-size: 12px;">${User.role} | <span style="background-color: lawngreen; padding: 4px; border-radius: 5px; margin: 0px 10px;">pointed</span></h1>
-                                </div>
-                            </div>
-                            <button style="background-image: url(imges/edit.png); height: 30px; width:30px; border: none;"></button>
-                        </div>`
-                    }
+                        <div>
+                        <img src="${User.input_img_url}" alt="" style="width: 50px;">
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
+                        <div style="display: flex;">
+                        <h1 style="padding: 0px; margin: 0px; font-size: 12px;">${User.role} | <span style="background-color: lawngreen; padding: 4px; border-radius: 5px; margin: 0px 10px;">pointed</span></h1>
+                                  </div>
+                                  </div>
+                                  <button style="background-image: url(imges/edit.png); height: 30px; width:30px; border: none;"></button>
+                                  </div>`
+                                }
                 }
             }
         }
@@ -232,22 +270,22 @@ function Disply_Workers(){
     for(let User of Parsed_data){
         disply_workers_container.innerHTML +=
         `<div class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
-            <div>
-                <img src="${User.input_img_url}" alt="" style="width: 50px;">
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
-                <div style="display: flex;">
+        <div>
+        <img src="${User.input_img_url}" alt="" style="width: 50px;">
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+        <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
+        <div style="display: flex;">
                     <h1 style="padding: 0px; margin: 0px; font-size: 12px;">${User.role} | <span style="background-color: lawngreen; padding: 4px; border-radius: 5px; margin: 0px 10px;">pointed</span></h1>
-                </div>
-            </div>
-            <button style="background-image: url(imges/edit.png); height: 30px; width:30px; border: none;"></button>
-        </div>`
-    }
+                    </div>
+                    </div>
+                    <button style="background-image: url(imges/edit.png); height: 30px; width:30px; border: none;"></button>
+                    </div>`
+                }
 
     disply_workers_container.innerHTML += `
         <button id="add_worker" style="
-            position: sticky;
+        position: sticky;
             bottom: 0;
             height: 40px;
             padding: 0 !important;
@@ -262,18 +300,27 @@ function Disply_Workers(){
             margin-top: 10px;
             display: block;">
             add worker
-        </button>`;
-
-    document.getElementById("add_worker").addEventListener("click", ()=>{
-        nav_bar.style.height="fit-content"
-        disply_workers_container.style.display="none"
-        display_add_worker.style.display="block"
-    })
-
-    document.getElementById("button_cancel").addEventListener("click", ()=>{
-        display_add_worker.style.display="none"
-        disply_workers_container.style.display="block"
-    })
+            </button>`;
+            
+    document.getElementById("add_worker").addEventListener("click", showAddWorkerModal);
+    
+    document.getElementById("button_cancel").addEventListener("click", hideAddWorkerModal);
+         
+    
 }
 
+
+window.addEventListener('click', function(e) {  
+    const isClickInsideModal = display_add_worker.contains(e.target);
+        const isClickOnAddButton = e.target.id === "add_worker";
+ 
+    if (display_add_worker.style.display == "block") {
+        if (!isClickInsideModal && !isClickOnAddButton) {
+            hideAddWorkerModal();
+        }
+    }
+});
+
 Disply_Workers()
+
+l
