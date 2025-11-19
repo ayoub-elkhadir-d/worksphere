@@ -36,40 +36,43 @@ let _Salle_de_sécurité = document.getElementById("Salle_de_sécurité")
 let _Salle_du_personnel = document.getElementById("Salle_du_personnel")
 let _Salle_darchives = document.getElementById("Salle_darchives")
 
+
+
+
 _Salle_de_conférence.addEventListener("click",()=>{
-
-
+Disply_worker_by_sale("Salle de conférence")
 })
 _Réception.addEventListener("click",()=>{
 
-  Disply_worker_by_role("Réception")
+  Disply_worker_by_sale("Reception")
  
 })
 _Salle_des_serveurs.addEventListener("click",()=>{
 
-  
-   Disply_worker_by_role("serveurs")
+   Disply_worker_by_sale("Salle des serveurs")
 })
 _Salle_de_sécurité.addEventListener("click",()=>{
 
   
-   Disply_worker_by_role("sécurité")
+   Disply_worker_by_sale("Salle de sécurité")
 })
 _Salle_du_personnel.addEventListener("click",()=>{
 
   
-   Disply_worker_by_role("Manager")
+   Disply_worker_by_sale("Salle du personnel")
 })
 _Salle_darchives.addEventListener("click",()=>{
 
   
-   Disply_worker_by_role("Nettoyage")
+   Disply_worker_by_sale("Salle d'archives")
 })
 
 Select_Role.addEventListener("change",()=>{
 Role_Selected=Select_Role.value
 
 })
+
+
 
 
 
@@ -180,30 +183,50 @@ button_submit.addEventListener("click",()=>{
 if(disply_workers_container.style.display=="block"){
   disply_workers_container.style.height="70vh"
 }
-function Disply_worker_by_role(role){
+
+
+
+function Disply_worker_by_sale(sale){
+
 disply_workers_container.innerHTML =""
 
-    for(User of Parsed_data){
-      if(User.role==role){
-    disply_workers_container.innerHTML +=
-    `<div style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52) ;padding: 15px 0px; border-radius: 10px; align-items: center;">
-        <div>
-        <img src="${User.input_img_url}" alt="" style="width: 50px;">
-        </div>
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <h1 style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
-            <div style="display: flex;">
-                <h1 style="padding: 0px; margin: 0px; font-size: 12px;">${User.role} | <span style="background-color: lawngreen; padding: 4px; border-radius: 5px; margin: 0px 10px;">pointed</span> </h1>
+let roles={
+  "Reception": ["Manager", "Réceptionniste", "Nettoyage"],
+  "Salle des serveurs" : ["Manager", "Technicien IT", "Nettoyage"],
+  "Salle de sécurité":["Manager", "Agent de sécurité", "Nettoyage"],
+  "Salle du personnel": ["Manager", "Réceptionniste", "Technicien IT", "Agent de sécurité", "Nettoyage", "Autres"],
+  "Salle de conférence": ["Manager", "Réceptionniste", "Technicien IT", "Agent de sécurité", "Nettoyage", "Autres"],
+  "Salle d'archives": ["Manager"]
+}
+
+for(roles_ of Object.entries(roles) ){
+ if(roles_[0]==sale){
+  for(a of roles_[1]){
+      for(User of Parsed_data){
+        if(User.role==a){
+         disply_workers_container.innerHTML +=
+        `<div style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52) ;padding: 15px 0px; border-radius: 10px; align-items: center;">
+            <div>
+            <img src="${User.input_img_url}" alt="" style="width: 50px;">
             </div>
-          </div>
-          <button style="background-image: url(imges/edit.png); height: 30px; width:30px ;border: none; "></button>
-    </div>
-    `
-  }else continue
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <h1 style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
+                <div style="display: flex;">
+                    <h1 style="padding: 0px; margin: 0px; font-size: 12px;">${User.role} | <span style="background-color: lawngreen; padding: 4px; border-radius: 5px; margin: 0px 10px;">pointed</span> </h1>
+                </div>
+              </div>
+              <button style="background-image: url(imges/edit.png); height: 30px; width:30px ;border: none; "></button>
+        </div>
+        `
+        }else continue
   }
+  }
+
+ }
+}
 }
 function Disply_Workers(){
-  
+
   for(User of Parsed_data){
     disply_workers_container.innerHTML +=
     `<div style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52) ;padding: 15px 0px; border-radius: 10px; align-items: center;">
