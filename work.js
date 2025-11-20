@@ -56,6 +56,165 @@ let container_Salle_darchives = document.getElementById("display_persons_d’arc
 
 let currentRoomDiv = null;
 
+//=======================================================================//
+///////////////////////////////[Lissners]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//======================================================================//
+
+//===============Added pressure on updates within Zone================//
+
+function add_click_to_elements_of_div(container_){
+    container_.addEventListener("click",(e)=>{
+        const card=e.target.closest("button")
+        const id_cliked  = card.dataset.id 
+        
+        
+        for(emploiyer of Parsed_data){
+            if(emploiyer.id==id_cliked&&emploiyer.is_pointed==false){
+                console.log("false")
+                    emploiyer.is_pointed=true
+                    emploiyer.zone_worked=container_.id
+                    update_data_in_localstorage()
+                    break;
+                }
+                
+                if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
+                    console.log("true")
+                    emploiyer.is_pointed=false
+                    emploiyer.zone_worked=null
+                    update_data_in_localstorage()
+                    break
+                }
+            }
+            window.location.reload()
+        })
+    }
+    
+    add_click_to_elements_of_div(container_Salle_de_conférence)
+    add_click_to_elements_of_div(container_Réception)
+    add_click_to_elements_of_div(container_Salle_des_serveurs)
+    add_click_to_elements_of_div(container_Salle_de_sécurité)
+    add_click_to_elements_of_div(container_Salle_du_personnel)
+    add_click_to_elements_of_div(container_Salle_darchives)
+    
+    
+//======================== Clicking the + button inside each zone ========================//
+
+_Salle_de_conférence.addEventListener("click", () => {
+                Disply_worker_by_sale("Salle de conférence",container_Salle_de_conférence)
+                
+            })
+
+_Réception.addEventListener("click", () => {
+                Disply_worker_by_sale("Reception",container_Réception)
+            
+                
+            })
+
+_Salle_des_serveurs.addEventListener("click", () => {
+                Disply_worker_by_sale("Salle des serveurs",container_Salle_des_serveurs)
+                
+            })
+
+
+
+ _Salle_de_sécurité.addEventListener("click", () => {
+                Disply_worker_by_sale("Salle de sécurité",container_Salle_de_sécurité)
+                
+            })
+
+ _Salle_du_personnel.addEventListener("click", () => {
+                Disply_worker_by_sale("Salle du personnel",container_Salle_du_personnel)
+                
+            })
+
+ _Salle_darchives.addEventListener("click", () => {
+                Disply_worker_by_sale("Salle d'archives",container_Salle_darchives)
+                
+            })
+
+Select_Role.addEventListener("change",()=>{
+            Role_Selected=Select_Role.value
+            })
+ //============================================================================================//
+
+
+            // function check_date(date_from,date_to){
+            // if(date_from<date_to){
+            //     console.log("no")
+            // }
+            // }
+            //console.log(check_date("21/10/2006","21/1/2006"))
+
+
+//======================== add image to the input if you coole link ========================//
+            function Disply_Img(){
+                input_img_url.addEventListener("keyup",()=>{
+                    Image_Persone.src=`${input_img_url.value}`
+                })
+            }
+            Disply_Img()
+//======================== a ========================//
+            
+            function addValidationListener(input, regex) {
+                input.addEventListener("input", () => {
+                    if (input.value.trim() === "") {
+                        input.classList.remove("valid-input", "invalid-input");
+                    } else if (regex.test(input.value.trim())) {
+
+                        input.classList.add("valid-input");
+                        input.classList.remove("invalid-input");
+                        
+                    } else {
+
+                        input.classList.add("invalid-input");
+                        input.classList.remove("valid-input");
+                        
+                    }
+                });
+            }
+            
+            addValidationListener(input_email, email_regex);
+            addValidationListener(input_num_tele, number_regex);
+            addValidationListener(input_name, nome_regex);
+            
+
+            
+//================================ is date valiude ================================//  
+            function valide_date_lisner(){
+            date_from.addEventListener("change",()=>{
+                
+                if(date_from.value < date_to.value &&date_from.value!=""&& date_to.value!=""){
+                    
+                    date_to.classList.add("valid-input");
+                    date_from.classList.add("valid-input");
+                    date_to.classList.remove("invalid-input")
+                    date_from.classList.remove("invalid-input")
+
+                    }else{
+                    date_to.classList.remove("valid-input");
+                    date_from.classList.remove("valid-input");
+                    date_to.classList.add("invalid-input")
+                    date_from.classList.add("invalid-input")
+                }
+            })
+
+            date_to.addEventListener("change",(e)=>{
+                if(date_to.value > date_from.value&&date_from.value!=""&& date_to.value!=""){      
+                    date_to.classList.add("valid-input");
+                    date_from.classList.add("valid-input");
+                    date_to.classList.remove("invalid-input")
+                    date_from.classList.remove("invalid-input")
+                    }else{
+                    date_to.classList.remove("valid-input");
+                    date_from.classList.remove("valid-input");
+                    date_to.classList.add("invalid-input")
+                    date_from.classList.add("invalid-input")
+                }
+            })
+            }
+            valide_date_lisner()
+//===================================================================//
+//===================================================================//
 function update_data_in_localstorage(){
     
     localStorage.setItem("users",JSON.stringify(Parsed_data))
@@ -93,135 +252,6 @@ function hideAddWorkerModal() {
     set_opacity(false);
 }
 
- function add_click_to_elements_of_div(container_){
-    container_.addEventListener("click",(e)=>{
-const card=e.target.closest("button")
-const id_cliked  = card.dataset.id 
-
-console.log(card)
-for(emploiyer of Parsed_data){
-    if(emploiyer.id==id_cliked&&emploiyer.is_pointed==false){
-        console.log("false")
-        emploiyer.is_pointed=true
-        emploiyer.zone_worked=container_.id
-        update_data_in_localstorage()
-        break;
-    }
-    
-    if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
-        console.log("true")
-        emploiyer.is_pointed=false
-        emploiyer.zone_worked=null
-        update_data_in_localstorage()
-        break
-    }
-}
- window.location.reload()
-})
-}
-
-add_click_to_elements_of_div(container_Salle_de_conférence)
-add_click_to_elements_of_div(container_Réception)
-add_click_to_elements_of_div(container_Salle_des_serveurs)
-add_click_to_elements_of_div(container_Salle_de_sécurité)
-add_click_to_elements_of_div(container_Salle_du_personnel)
-add_click_to_elements_of_div(container_Salle_darchives)
-
-_Salle_de_conférence.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle de conférence",container_Salle_de_conférence)
-    
-})
-
-_Réception.addEventListener("click", () => {
-    Disply_worker_by_sale("Reception",container_Réception)
-   
-    
-})
-
-_Salle_des_serveurs.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle des serveurs",container_Salle_des_serveurs)
-    
-})
-
-
-
-_Salle_de_sécurité.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle de sécurité",container_Salle_de_sécurité)
-    
-})
-
-_Salle_du_personnel.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle du personnel",container_Salle_du_personnel)
-    
-})
-
-_Salle_darchives.addEventListener("click", () => {
-    Disply_worker_by_sale("Salle d'archives",container_Salle_darchives)
-    
-})
-
-Select_Role.addEventListener("change",()=>{
- Role_Selected=Select_Role.value
-})
-
-
-
-// function check_date(date_from,date_to){
-// if(date_from<date_to){
-//     console.log("no")
-// }
-// }
-//console.log(check_date("21/10/2006","21/1/2006"))
-
-function Disply_Img(){
-    input_img_url.addEventListener("keyup",()=>{
-        Image_Persone.src=`${input_img_url.value}`
-    })
-}
-Disply_Img()
-
-
-function addValidationListener(input, regex) {
-    input.addEventListener("input", () => {
-        if (input.value.trim() === "") {
-            input.classList.remove("valid-input", "invalid-input");
-        } else if (regex.test(input.value.trim())) {
-
-            input.classList.add("valid-input");
-            input.classList.remove("invalid-input");
-
-        } else {
-
-            input.classList.add("invalid-input");
-            input.classList.remove("valid-input");
-
-        }
-    });
-}
-
-addValidationListener(input_email, email_regex);
-addValidationListener(input_num_tele, number_regex);
-addValidationListener(input_name, nome_regex);
-event_lisner_in_inputs_date(date_from) //21/10/2005
-event_lisner_in_inputs_date(date_to)//23/10/2005
-
-function event_lisner_in_inputs_date(input){
-input.addEventListener("change",()=>{
-    if(input.value > date_from.value||input < date_to.value){
-        
-        date_to.classList.add("valid-input");
-        date_from.classList.add("valid-input");
-          date_to.classList.remove("invalid-input")
-          date_from.classList.remove("invalid-input")
-
-        }else{
-      date_to.classList.remove("valid-input");
-        date_from.classList.remove("valid-input");
-          date_to.classList.add("invalid-input")
-          date_from.classList.add("invalid-input")
-    }
-})
-}
 
 
 function set_opacity(is_set){
