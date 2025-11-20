@@ -202,17 +202,23 @@ function addValidationListener(input, regex) {
 addValidationListener(input_email, email_regex);
 addValidationListener(input_num_tele, number_regex);
 addValidationListener(input_name, nome_regex);
-event_lisner_in_inputs_date(date_from)
-event_lisner_in_inputs_date(date_to)
+event_lisner_in_inputs_date(date_from) //21/10/2005
+event_lisner_in_inputs_date(date_to)//23/10/2005
 
 function event_lisner_in_inputs_date(input){
 input.addEventListener("change",()=>{
-    if(input.value < date_from.value||input > date_to.value){
-           input.classList.add("invalid-input");
-            input.classList.remove("valid-input");
-    }else{
-     input.classList.add("valid-input");
-       input.classList.remove("invalid-input")
+    if(input.value > date_from.value||input < date_to.value){
+        
+        date_to.classList.add("valid-input");
+        date_from.classList.add("valid-input");
+          date_to.classList.remove("invalid-input")
+          date_from.classList.remove("invalid-input")
+
+        }else{
+      date_to.classList.remove("valid-input");
+        date_from.classList.remove("valid-input");
+          date_to.classList.add("invalid-input")
+          date_from.classList.add("invalid-input")
     }
 })
 }
