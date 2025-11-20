@@ -1,4 +1,10 @@
+//================= containers declared ======================//
+let container_ =document.querySelector(".container")
+let _container_add_worker =document.getElementById("container_add_worker")
+let disply_workers_container = document.getElementById("disply_workers")
+let display_add_worker = document.getElementById("container_add_worker")
 let nav_bar = document.getElementById("right_bar")
+//=================form declared ======================//
 let input_name = document.getElementById("input_name")
 let input_img_url = document.getElementById("input_img_url")
 let input_email = document.getElementById("input_mail")
@@ -7,54 +13,23 @@ let Image_Persone = document.getElementById("image_persone")
 let Select_Role = document.getElementById("Slect_role")
 let allinputs = document.querySelectorAll("input")
 let button_submit = document.getElementById("buton_submit")
-
-let container_ =document.querySelector(".container")
-let _container_add_worker =document.getElementById("container_add_worker")
-//localStorage.removeItem("users")
-let disply_workers_container = document.getElementById("disply_workers")
-let display_add_worker = document.getElementById("container_add_worker")
-let button_add_ex_ = document.getElementById("button_add_ex")
-
+let Role_Selected = ""
+//=================form declaration (experience)  ======================//
 let input_company = document.getElementById("input_company")
 let role_experience = document.getElementById("role_experience")
 let date_from = document.getElementById("date_from")
 let date_to = document.getElementById("date_to")
-
 let form_add_ex_ = document.getElementById("container_form_experience")
 let form_add_ex_inputs = form_add_ex_.querySelectorAll("input")
+let button_add_ex_ = document.getElementById("button_add_ex")
+//==========================Json==================================//
 
 let Parsed_data = JSON.parse(localStorage.getItem("users") || "[]");
-
+let experience = []
+//======================== regex ================================//
 let email_regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 let number_regex = /^\+212[1-9]\d{8}$/
 let nome_regex = /^[A-Za-z]+(?: [A-Za-z]+)*$/  
-
-let experience = []
-let Role_Selected = ""
-
-
-let _Salle_de_conférence = document.getElementById("Salle_de_conférence")
-let _Réception = document.getElementById("Réception")
-let _Salle_des_serveurs = document.getElementById("Salle_des_serveurs")
-let _Salle_de_sécurité = document.getElementById("Salle_de_sécurité")
-let _Salle_du_personnel = document.getElementById("Salle_du_personnel")
-let _Salle_darchives = document.getElementById("Salle_darchives")
-
-let div_Salle_de_conférence = document.getElementById("_Salle_de_conférence")
-let div_Réception = document.getElementById("_Réception")
-let div_Salle_des_serveurs = document.getElementById("_Salle_des_serveurs")
-let div_Salle_de_sécurité = document.getElementById("_Salle_de_sécurité")
-let div_Salle_du_personnel = document.getElementById("_Salle_du_personnel")
-let div_Salle_darchives = document.getElementById("_Salle_darchives")
-
-let container_Salle_de_conférence = document.getElementById("display_persons_conférence")
-let container_Réception = document.getElementById("display_persons_Réception")
-let container_Salle_des_serveurs = document.getElementById("display_persons_serveurs")
-let container_Salle_de_sécurité = document.getElementById("display_persons_sécurité")
-let container_Salle_du_personnel = document.getElementById("display_persons_personnel")
-let container_Salle_darchives = document.getElementById("display_persons_d’archives")
-
-let currentRoomDiv = null;
 
 //=======================================================================//
 ///////////////////////////////[Lissners]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -71,23 +46,30 @@ function add_click_to_elements_of_div(container_){
         for(emploiyer of Parsed_data){
             if(emploiyer.id==id_cliked&&emploiyer.is_pointed==false){
                 console.log("false")
-                    emploiyer.is_pointed=true
-                    emploiyer.zone_worked=container_.id
-                    update_data_in_localstorage()
-                    break;
-                }
-                
-                if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
-                    console.log("true")
-                    emploiyer.is_pointed=false
-                    emploiyer.zone_worked=null
-                    update_data_in_localstorage()
-                    break
-                }
+                emploiyer.is_pointed=true
+                emploiyer.zone_worked=container_.id
+                update_data_in_localstorage()
+                break;
             }
+            
+            if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
+                console.log("true")
+                emploiyer.is_pointed=false
+                emploiyer.zone_worked=null
+                update_data_in_localstorage()
+                break
+            }
+        }
             window.location.reload()
         })
     }
+    
+    let container_Salle_de_conférence = document.getElementById("display_persons_conférence")
+    let container_Réception = document.getElementById("display_persons_Réception")
+    let container_Salle_des_serveurs = document.getElementById("display_persons_serveurs")
+    let container_Salle_de_sécurité = document.getElementById("display_persons_sécurité")
+    let container_Salle_du_personnel = document.getElementById("display_persons_personnel")
+    let container_Salle_darchives = document.getElementById("display_persons_d’archives")
     
     add_click_to_elements_of_div(container_Salle_de_conférence)
     add_click_to_elements_of_div(container_Réception)
@@ -97,9 +79,17 @@ function add_click_to_elements_of_div(container_){
     add_click_to_elements_of_div(container_Salle_darchives)
     
     
-//======================== Clicking the + button inside each zone ========================//
+    //======================== Clicking the + button inside each zone ========================//
+    
+    let _Salle_de_conférence = document.getElementById("Salle_de_conférence")
+    let _Réception = document.getElementById("Réception")
+    let _Salle_des_serveurs = document.getElementById("Salle_des_serveurs")
+    let _Salle_de_sécurité = document.getElementById("Salle_de_sécurité")
+    let _Salle_du_personnel = document.getElementById("Salle_du_personnel")
+    let _Salle_darchives = document.getElementById("Salle_darchives")
 
-_Salle_de_conférence.addEventListener("click", () => {
+
+    _Salle_de_conférence.addEventListener("click", () => {
                 Disply_worker_by_sale("Salle de conférence",container_Salle_de_conférence)
                 
             })
