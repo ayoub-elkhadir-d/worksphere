@@ -2,8 +2,10 @@
 let container_ =document.querySelector(".container")
 let _container_add_worker =document.getElementById("container_add_worker")
 let disply_workers_container = document.getElementById("disply_workers")
+let container_display_workers_in_zone_ = document.getElementById("container_display_workers_in_zone")
 let display_add_worker = document.getElementById("container_add_worker")
 let nav_bar = document.getElementById("right_bar")
+
 //=================form declared ======================//
 let input_name = document.getElementById("input_name")
 let input_img_url = document.getElementById("input_img_url")
@@ -30,40 +32,54 @@ let experience = []
 let email_regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 let number_regex = /^\+212[1-9]\d{8}$/
 let nome_regex = /^[A-Za-z]+(?: [A-Za-z]+)*$/  
-
+//======================== variables ================================//
+let zone_ckliked_id=null
 //=======================================================================//
 ///////////////////////////////[Lissners]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //======================================================================//
-
+// localStorage.removeItem("users")
 //===============Added pressure on updates within Zone================//
 
 function add_click_to_elements_of_div(container_){
     container_.addEventListener("click",(e)=>{
         const card=e.target.closest("button")
         const id_cliked  = card.dataset.id 
-        
+        console.log(card)
         
         for(emploiyer of Parsed_data){
             if(emploiyer.id==id_cliked&&emploiyer.is_pointed==false){
-                console.log("false")
+                console.log("ii")
                 emploiyer.is_pointed=true
-                emploiyer.zone_worked=container_.id
+                emploiyer.zone_worked=zone_ckliked_id
                 update_data_in_localstorage()
                 break;
             }
             
-            if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
-                console.log("true")
+        }
+            window.location.reload()
+        })
+    }
+    
+    function add__lisner_to_remove_element_in_zone(container_){
+    container_.addEventListener("click",(e)=>{
+        const card=e.target.closest("button")
+        const id_cliked  = card.dataset.id 
+        console.log(card)
+        
+        for(emploiyer of Parsed_data){
+           if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
+                console.log("i")
                 emploiyer.is_pointed=false
                 emploiyer.zone_worked=null
                 update_data_in_localstorage()
                 break
             }
         }
-            window.location.reload()
+             window.location.reload()
         })
     }
-    
+
+
     let container_Salle_de_conférence = document.getElementById("display_persons_conférence")
     let container_Réception = document.getElementById("display_persons_Réception")
     let container_Salle_des_serveurs = document.getElementById("display_persons_serveurs")
@@ -71,12 +87,13 @@ function add_click_to_elements_of_div(container_){
     let container_Salle_du_personnel = document.getElementById("display_persons_personnel")
     let container_Salle_darchives = document.getElementById("display_persons_d’archives")
     
-    add_click_to_elements_of_div(container_Salle_de_conférence)
-    add_click_to_elements_of_div(container_Réception)
-    add_click_to_elements_of_div(container_Salle_des_serveurs)
-    add_click_to_elements_of_div(container_Salle_de_sécurité)
-    add_click_to_elements_of_div(container_Salle_du_personnel)
-    add_click_to_elements_of_div(container_Salle_darchives)
+    add_click_to_elements_of_div(container_display_workers_in_zone_)
+    add__lisner_to_remove_element_in_zone(container_Salle_de_conférence)
+    add__lisner_to_remove_element_in_zone(container_Réception)
+    add__lisner_to_remove_element_in_zone(container_Salle_des_serveurs)
+    add__lisner_to_remove_element_in_zone(container_Salle_de_sécurité)
+    add__lisner_to_remove_element_in_zone(container_Salle_du_personnel)
+    add__lisner_to_remove_element_in_zone(container_Salle_darchives)
     
     
     //======================== Clicking the + button inside each zone ========================//
@@ -89,36 +106,45 @@ function add_click_to_elements_of_div(container_){
     let _Salle_darchives = document.getElementById("Salle_darchives")
 
 
+
     _Salle_de_conférence.addEventListener("click", () => {
-                Disply_worker_by_sale("Salle de conférence",container_Salle_de_conférence)
+                zone_ckliked_id="display_persons_conférence"
+                Disply_worker_by_sale("Salle de conférence")
+                // container_display_workers_in_zone_.style.display="block"
+
                 
             })
 
 _Réception.addEventListener("click", () => {
-                Disply_worker_by_sale("Reception",container_Réception)
+                zone_ckliked_id="display_persons_Réception"
+                Disply_worker_by_sale("Reception")
             
                 
             })
 
 _Salle_des_serveurs.addEventListener("click", () => {
-                Disply_worker_by_sale("Salle des serveurs",container_Salle_des_serveurs)
+             zone_ckliked_id="display_persons_serveurs"
+                Disply_worker_by_sale("Salle des serveurs")
                 
             })
 
 
 
  _Salle_de_sécurité.addEventListener("click", () => {
-                Disply_worker_by_sale("Salle de sécurité",container_Salle_de_sécurité)
+            zone_ckliked_id="display_persons_sécurité"
+            Disply_worker_by_sale("Salle de sécurité")
                 
             })
 
  _Salle_du_personnel.addEventListener("click", () => {
-                Disply_worker_by_sale("Salle du personnel",container_Salle_du_personnel)
+    zone_ckliked_id="display_persons_personnel"
+                Disply_worker_by_sale("Salle du personnel")
                 
             })
 
  _Salle_darchives.addEventListener("click", () => {
-                Disply_worker_by_sale("Salle d'archives",container_Salle_darchives)
+    zone_ckliked_id="display_persons_d’archives"
+                Disply_worker_by_sale("Salle d'archives")
                 
             })
 
@@ -223,11 +249,14 @@ function get_data_from_localstorage_and_disply(){
         
    document.getElementById(emp.zone_worked).innerHTML+=
         `
-                    <div id="profile" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
+                         <div id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 15px; align-items: center;">
+                        <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${emp.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
                         <span style="font-weight: 800;">${emp.name}</span>
-                    <img style="width: 50px;height: 50px;border: none; border-radius: 100%;" src="${emp.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
-                    <button data-id="${emp.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/remove_circle_29dp_EA3323.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
-                    </div>         
+                        <span style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${emp.role}</span>
+                        
+                        <button data-id="${emp.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/remove_circle_29dp_EA3323.png); background-size: cover; position: relative;top:0;" id="add_or_remove"></button>
+                        </div> 
+                             
         `
        }
     }
@@ -251,9 +280,10 @@ function hideAddWorkerModal() {
 
 
 //function if click to button add worker in chacke zone displey all workers qui interess of this zone
-function Disply_worker_by_sale(sale,container_desplay_it){
+function Disply_worker_by_sale(sale){
     let counter=0
-    container_desplay_it.innerHTML =""
+    container_display_workers_in_zone_.style.display="flex"
+    container_display_workers_in_zone_.innerHTML =""
     
     let roles = {
         "Reception": ["Manager", "Réceptionniste", "Nettoyage"],
@@ -270,15 +300,18 @@ function Disply_worker_by_sale(sale,container_desplay_it){
                 for(let User of Parsed_data){
                     if(User.role==a && User.is_pointed==false){
                       counter++
-                       container_desplay_it.innerHTML +=`
+                       container_display_workers_in_zone_.innerHTML +=`
 
-                        <div id="profile"  style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
-                        <span style="font-weight: 800;">${User.name}</span>
-                        
+                        <div id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 15px; align-items: center;">
                         <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
-                        <button data-id="${User.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add_circle_29dp_75FB4C.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
+                        <span style="font-weight: 800;">${User.name}</span>
+                        <span style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role}</span>
+                        
+                        <button data-id="${User.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add_circle_29dp_75FB4C.png); background-size: cover; position: relative;top:0;" id="add_or_remove"></button>
                         </div> 
                         `
+
+                   
                     }
                 }
                 
@@ -370,6 +403,9 @@ function is_valid() {
         role_experience.value != "" &&
         date_from.value != "" &&
         date_to.value != ""&&
+        email_regex.test(input_email.value.trim())&&
+        number_regex.test(input_num_tele.value.trim())&&
+        nome_regex.test(input_name.value.trim())&&
         date_from.value < date_to.value
       
     );
@@ -441,16 +477,28 @@ button_submit.addEventListener("click", () => {
 window.addEventListener('click', function(e) {  
     const isClickInsideModal = display_add_worker.contains(e.target);
         const isClickOnAddButton = e.target.id === "add_worker";
- 
+    
     if (display_add_worker.style.display == "block") {
         if (!isClickInsideModal && !isClickOnAddButton) {
             hideAddWorkerModal();
         }
     }
 });
-//===================================================================//
-//===================================================================//
 
+window.addEventListener('click', function(e) {  
+    let zones_buttons = ["Salle_de_conférence","Réception","Salle_des_serveurs","Salle_de_sécurité","Salle_du_personnel","Salle_darchives"]
+    const isClickInsideModal = container_display_workers_in_zone_.contains(e.target);
+    const isClickOnAddButton = zones_buttons.includes(e.target.id) ;
+    if (container_display_workers_in_zone_.style.display == "flex") {
+        if (!isClickInsideModal && !isClickOnAddButton) {
+      
+           container_display_workers_in_zone_.style.display = "none"
+
+        }
+    }
+});
+//===================================================================//
+//===================================================================//
 
 
 
