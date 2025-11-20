@@ -62,18 +62,17 @@ function update_data_in_localstorage(){
 }
 
 function get_data_from_localstorage_and_disply(){
+
     for(emp of Parsed_data){
        if(emp.is_pointed==true){
         
    document.getElementById(emp.zone_worked).innerHTML+=
         `
-                    <div id="profile" data-id="${emp.id}" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
+                    <div id="profile" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
                         <span style="font-weight: 800;">${emp.name}</span>
                     <img style="width: 50px;height: 50px;border: none; border-radius: 100%;" src="${emp.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
-                    <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/remove_circle_29dp_EA3323.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
-                    </div> 
-                        
-                    
+                    <button data-id="${emp.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/remove_circle_29dp_EA3323.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
+                    </div>         
         `
        }
     }
@@ -82,7 +81,7 @@ get_data_from_localstorage_and_disply()
 // Function to show add worker modal
 function showAddWorkerModal() {
     nav_bar.style.height = "fit-content";
-    disply_workers_container.style.display = "none";
+    nav_bar.style.display = "none";
     display_add_worker.style.display = "block";
     set_opacity(true);
 }
@@ -90,16 +89,16 @@ function showAddWorkerModal() {
 // Function to hide add worker modal
 function hideAddWorkerModal() {
     display_add_worker.style.display = "none";
-    disply_workers_container.style.display = "block";
+    nav_bar.style.display = "block";
     set_opacity(false);
 }
 
  function add_click_to_elements_of_div(container_){
     container_.addEventListener("click",(e)=>{
-const card=e.target.closest("#profile")
-const id_cliked  = card.dataset.id
+const card=e.target.closest("button")
+const id_cliked  = card.dataset.id 
 
-console.log()
+console.log(card)
 for(emploiyer of Parsed_data){
     if(emploiyer.id==id_cliked&&emploiyer.is_pointed==false){
         console.log("false")
@@ -127,52 +126,52 @@ add_click_to_elements_of_div(container_Salle_des_serveurs)
 add_click_to_elements_of_div(container_Salle_de_sécurité)
 add_click_to_elements_of_div(container_Salle_du_personnel)
 add_click_to_elements_of_div(container_Salle_darchives)
+
 _Salle_de_conférence.addEventListener("click", () => {
     Disply_worker_by_sale("Salle de conférence",container_Salle_de_conférence)
-    currentRoomDiv = div_Salle_de_conférence
+    
 })
 
 _Réception.addEventListener("click", () => {
     Disply_worker_by_sale("Reception",container_Réception)
-    currentRoomDiv = div_Réception
+   
     
 })
 
 _Salle_des_serveurs.addEventListener("click", () => {
     Disply_worker_by_sale("Salle des serveurs",container_Salle_des_serveurs)
-    currentRoomDiv = div_Salle_des_serveurs
+    
 })
 
 
 
 _Salle_de_sécurité.addEventListener("click", () => {
     Disply_worker_by_sale("Salle de sécurité",container_Salle_de_sécurité)
-    currentRoomDiv = div_Salle_de_sécurité
+    
 })
 
 _Salle_du_personnel.addEventListener("click", () => {
     Disply_worker_by_sale("Salle du personnel",container_Salle_du_personnel)
-    currentRoomDiv = div_Salle_du_personnel
+    
 })
 
 _Salle_darchives.addEventListener("click", () => {
     Disply_worker_by_sale("Salle d'archives",container_Salle_darchives)
-    currentRoomDiv = div_Salle_darchives
+    
 })
 
 Select_Role.addEventListener("change",()=>{
  Role_Selected=Select_Role.value
 })
 
-disply_workers_container.addEventListener("click", (e) => {
-    const workerCard = e.target.closest(".worker");
-    if(workerCard && currentRoomDiv){
-        let name = workerCard.querySelector("h1.name").textContent;
-        currentRoomDiv.innerText += name + " ";
-    }
-})
 
 
+// function check_date(date_from,date_to){
+// if(date_from<date_to){
+//     console.log("no")
+// }
+// }
+//console.log(check_date("21/10/2006","21/1/2006"))
 
 function Disply_Img(){
     input_img_url.addEventListener("keyup",()=>{
@@ -206,8 +205,8 @@ addValidationListener(input_name, nome_regex);
 
 function set_opacity(is_set){
   if(is_set){
-    document.querySelector(".parent").style.opacity="0.2"
-    document.querySelector(".worker").style.opacity="0.2"
+    document.querySelector(".parent").style.opacity="0.05"
+    document.querySelector(".worker").style.opacity="0.05"
   }else{
     document.querySelector(".parent").style.opacity="1"
     document.querySelector(".worker").style.opacity="1"
@@ -224,7 +223,9 @@ function is_valid() {
         input_company.value != "" &&
         role_experience.value != "" &&
         date_from.value != "" &&
-        date_to.value != ""
+        date_to.value != ""&&
+        date_from.value < date_to.value
+      
     );
 }
 
@@ -264,6 +265,8 @@ function get_data(){
     return Parsed_data
 }
 
+
+
 button_add_ex_.addEventListener("click", () => {
     if(is_valid()){
         let experience_o = {
@@ -278,11 +281,15 @@ button_add_ex_.addEventListener("click", () => {
 })
 
 button_submit.addEventListener("click", () => {
+   
+
+
     for(let inputs of allinputs){
         if(inputs.value==""){
             inputs.classList.add("invalid-input");
             inputs.classList.remove("valid-input");
         }
+
     }
  
      if(is_valid()){
@@ -298,6 +305,7 @@ if(disply_workers_container.style.display=="block"){
 }
 
 function Disply_worker_by_sale(sale,container_desplay_it){
+    let counter=0
     container_desplay_it.innerHTML =""
     
     let roles = {
@@ -312,20 +320,25 @@ function Disply_worker_by_sale(sale,container_desplay_it){
     for(let [room, roomRoles] of Object.entries(roles)){
         if(room == sale){
             for(let a of roomRoles){
+                
                 for(let User of Parsed_data){
                     if(User.role==a && User.is_pointed==false){
-                       
+                      counter++
                        container_desplay_it.innerHTML +=`
 
-                        <div id="profile" data-id="${User.id}" style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
+                        <div id="profile"  style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
                         <span style="font-weight: 800;">${User.name}</span>
                         
                         <img style="width: 50px;height: 50px; filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg); border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
-                        <button style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add_circle_29dp_75FB4C.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
+                        <button data-id="${User.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add_circle_29dp_75FB4C.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
                         </div> 
                         `
                     }
                 }
+                
+            }
+            if(counter==0){
+                window.location.reload()
             }
         }
     }
