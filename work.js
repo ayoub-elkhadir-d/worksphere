@@ -329,7 +329,7 @@ function Disply_worker_by_sale(sale,container_desplay_it){
                         <div id="profile"  style="height: fit-content; width: fit-content;display: flex;flex-direction: column; justify-content: center; align-items: center;">
                         <span style="font-weight: 800;">${User.name}</span>
                         
-                        <img style="width: 50px;height: 50px; filter: invert(50%) sepia(100%) saturate(500%) hue-rotate(200deg); border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
+                        <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
                         <button data-id="${User.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add_circle_29dp_75FB4C.png); background-size: cover; position: relative;top: -10;" id="add_or_remove"></button>
                         </div> 
                         `
@@ -351,15 +351,15 @@ function Disply_Workers(){
         disply_workers_container.innerHTML +=
         `<div class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
         <div>
-        <img src="${User.input_img_url}" alt="" style="width: 50px;">
+        <img src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="" style="width: 50px;">
         </div>
         <div style="display: flex; flex-direction: column; gap: 10px;">
         <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
         <div style="display: flex;">
-                    <h1 style="padding: 0px; margin: 0px; font-size: 12px;">${User.role} | <span style="background-color: lawngreen; padding: 4px; border-radius: 5px; margin: 0px 10px;">pointed</span></h1>
+                    <h1 style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role} | <span style="background-color: red; font-size="10px"; padding: 4px; border-radius: 5px; margin: 0px 10px;">Not Worked</span></h1>
                     </div>
                     </div>
-                    <button style="background-image: url(imges/edit.png); height: 30px; width:30px; border: none;"></button>
+                    
                     </div>`
                 }
                 }
