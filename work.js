@@ -153,7 +153,7 @@ Select_Role.addEventListener("change",()=>{
                 })
             }
             Disply_Img()
-//======================== a ========================//
+//======================== add lisner to inputs de forms ========================//
             
             function addValidationListener(input, regex) {
                 input.addEventListener("input", () => {
@@ -212,14 +212,20 @@ Select_Role.addEventListener("change",()=>{
                 }
             })
             }
+
             valide_date_lisner()
-//===================================================================//
-//===================================================================//
+
+//=======================================================================//
+//**************************[Functions]*******************************
+//======================================================================//
+
+//function update data in localstorage
 function update_data_in_localstorage(){
     
     localStorage.setItem("users",JSON.stringify(Parsed_data))
 }
 
+//=======================Fonctions de display=========================//
 function get_data_from_localstorage_and_disply(){
 
     for(emp of Parsed_data){
@@ -236,8 +242,9 @@ function get_data_from_localstorage_and_disply(){
        }
     }
 }
-get_data_from_localstorage_and_disply()
+
 // Function to show add worker modal
+get_data_from_localstorage_and_disply()
 function showAddWorkerModal() {
     nav_bar.style.height = "fit-content";
     nav_bar.style.display = "none";
@@ -253,108 +260,7 @@ function hideAddWorkerModal() {
 }
 
 
-
-function set_opacity(is_set){
-  if(is_set){
-    document.querySelector(".parent").style.opacity="0.05"
-    document.querySelector(".worker").style.opacity="0.05"
-  }else{
-    document.querySelector(".parent").style.opacity="1"
-    document.querySelector(".worker").style.opacity="1"
-  }
-}
-
-function is_valid() {
-    return (
-        input_name.value != "" &&
-        input_email.value != "" &&
-        Role_Selected != "" &&
-        input_img_url.value != "" &&
-        input_num_tele.value != "" &&
-        input_company.value != "" &&
-        role_experience.value != "" &&
-        date_from.value != "" &&
-        date_to.value != ""&&
-        date_from.value < date_to.value
-      
-    );
-}
-
-function clear_inputs(inputs){
-    for(let allinputs_ of inputs){
-        allinputs_.value=""
-        allinputs_.classList.remove("invalid-input");
-        allinputs_.classList.remove("valid-input");
-    } 
-}
-
-
-function get_data(){
-    let employee = {
-        "id":self.crypto.randomUUID(),
-        "name" : input_name.value,
-        "email" : input_email.value,
-        "input_img_url" : input_img_url.value,
-        "input_num_tele" : input_num_tele.value,
-        "experience": experience,
-        "role": Role_Selected,
-        "is_pointed": false,
-        "zone_worked":null
-
-    }
-
-    let experience_o = {
-        "company" : input_company.value,
-        "role experience" : role_experience.value,
-        "date from" : date_from.value,
-        "date to" : date_to.value,
-    }
-
-    experience.push(experience_o)
-    Parsed_data.push(employee)
-
-    return Parsed_data
-}
-
-
-
-button_add_ex_.addEventListener("click", () => {
-    if(is_valid()){
-        let experience_o = {
-            "company" : input_company.value,
-            "role experience" : role_experience.value,
-            "date from" : date_from.value,
-            "date to" : date_to.value,
-        }
-        experience.push(experience_o)
-        clear_inputs(form_add_ex_inputs)
-    }
-})
-
-button_submit.addEventListener("click", () => {
-   
-
-
-    for(let inputs of allinputs){
-        if(inputs.value==""){
-            inputs.classList.add("invalid-input");
-            inputs.classList.remove("valid-input");
-        }
-
-    }
- 
-     if(is_valid()){
-      
-        localStorage.setItem("users",JSON.stringify(get_data()))
-        clear_inputs(allinputs)
-        window.location.reload()
-    }
-})
-
-if(disply_workers_container.style.display=="block"){
-    disply_workers_container.style.height="70vh"
-}
-
+//function if click to button add worker in chacke zone displey all workers qui interess of this zone
 function Disply_worker_by_sale(sale,container_desplay_it){
     let counter=0
     container_desplay_it.innerHTML =""
@@ -394,6 +300,8 @@ function Disply_worker_by_sale(sale,container_desplay_it){
     }
 }
 
+
+//function to desplay workers in side bar (if not assined in zones)
 function Disply_Workers(){
     for(let User of Parsed_data){
     if(User.is_pointed==false){
@@ -435,12 +343,111 @@ function Disply_Workers(){
             
     document.getElementById("add_worker").addEventListener("click", showAddWorkerModal);
     
-    document.getElementById("button_cancel").addEventListener("click", hideAddWorkerModal);
-         
-    
+    document.getElementById("button_cancel").addEventListener("click", hideAddWorkerModal);  
+}
+
+Disply_Workers()
+
+//=========================Form functions=========================//
+
+//function to set opacity if form is opned
+function set_opacity(is_set){
+  if(is_set){
+    document.querySelector(".parent").style.opacity="0.05"
+    document.querySelector(".worker").style.opacity="0.05"
+  }else{
+    document.querySelector(".parent").style.opacity="1"
+    document.querySelector(".worker").style.opacity="1"
+  }
+}
+//function to clear inputs 
+function clear_inputs(inputs){
+    for(let allinputs_ of inputs){
+        allinputs_.value=""
+        allinputs_.classList.remove("invalid-input");
+        allinputs_.classList.remove("valid-input");
+    } 
+}
+//function to check inputs is valid
+function is_valid() {
+    return (
+        input_name.value != "" &&
+        input_email.value != "" &&
+        Role_Selected != "" &&
+        input_img_url.value != "" &&
+        input_num_tele.value != "" &&
+        input_company.value != "" &&
+        role_experience.value != "" &&
+        date_from.value != "" &&
+        date_to.value != ""&&
+        date_from.value < date_to.value
+      
+    );
+}
+
+//function to get the data from form
+function get_data(){
+    let employee = {
+        "id":self.crypto.randomUUID(),
+        "name" : input_name.value,
+        "email" : input_email.value,
+        "input_img_url" : input_img_url.value,
+        "input_num_tele" : input_num_tele.value,
+        "experience": experience,
+        "role": Role_Selected,
+        "is_pointed": false,
+        "zone_worked":null
+
+    }
+
+    let experience_o = {
+        "company" : input_company.value,
+        "role experience" : role_experience.value,
+        "date from" : date_from.value,
+        "date to" : date_to.value,
+    }
+
+    experience.push(experience_o)
+    Parsed_data.push(employee)
+
+    return Parsed_data
 }
 
 
+//add experience function
+button_add_ex_.addEventListener("click", () => {
+    if(is_valid()){
+        let experience_o = {
+            "company" : input_company.value,
+            "role experience" : role_experience.value,
+            "date from" : date_from.value,
+            "date to" : date_to.value,
+        }
+        experience.push(experience_o)
+        clear_inputs(form_add_ex_inputs)
+    }
+})
+
+
+//submit data form
+button_submit.addEventListener("click", () => {
+    for(let inputs of allinputs){
+        if(inputs.value==""){
+            inputs.classList.add("invalid-input");
+            inputs.classList.remove("valid-input");
+        }
+
+    }
+     if(is_valid()){
+      
+        localStorage.setItem("users",JSON.stringify(get_data()))
+        clear_inputs(allinputs)
+        window.location.reload()
+    }
+})
+
+
+//function if click inside the form close the form
 window.addEventListener('click', function(e) {  
     const isClickInsideModal = display_add_worker.contains(e.target);
         const isClickOnAddButton = e.target.id === "add_worker";
@@ -451,6 +458,13 @@ window.addEventListener('click', function(e) {
         }
     }
 });
+//===================================================================//
+//===================================================================//
 
-Disply_Workers()
+
+
+
+
+
+
 
