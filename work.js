@@ -26,7 +26,7 @@ let form_add_ex_inputs = form_add_ex_.querySelectorAll("input")
 let Parsed_data = JSON.parse(localStorage.getItem("users") || "[]");
 
 let email_regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-let number_regex = /^\+?[1-9]\d{1,14}$/
+let number_regex = /^\+212[1-9]\d{8}$/
 let nome_regex = /^[A-Za-z]+(?: [A-Za-z]+)*$/  
 
 let experience = []
@@ -202,6 +202,21 @@ function addValidationListener(input, regex) {
 addValidationListener(input_email, email_regex);
 addValidationListener(input_num_tele, number_regex);
 addValidationListener(input_name, nome_regex);
+event_lisner_in_inputs_date(date_from)
+event_lisner_in_inputs_date(date_to)
+
+function event_lisner_in_inputs_date(input){
+input.addEventListener("change",()=>{
+    if(input.value < date_from.value||input > date_to.value){
+           input.classList.add("invalid-input");
+            input.classList.remove("valid-input");
+    }else{
+     input.classList.add("valid-input");
+       input.classList.remove("invalid-input")
+    }
+})
+}
+
 
 function set_opacity(is_set){
   if(is_set){
@@ -319,8 +334,7 @@ function Disply_worker_by_sale(sale,container_desplay_it){
 
     for(let [room, roomRoles] of Object.entries(roles)){
         if(room == sale){
-            for(let a of roomRoles){
-                
+            for(let a of roomRoles){              
                 for(let User of Parsed_data){
                     if(User.role==a && User.is_pointed==false){
                       counter++
@@ -349,18 +363,18 @@ function Disply_Workers(){
     if(User.is_pointed==false){
 
         disply_workers_container.innerHTML +=
-        `<div class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
-        <div>
-        <img src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="" style="width: 50px;">
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 10px;">
-        <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
-        <div style="display: flex;">
-                    <h1 style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role} | <span style="background-color: red; font-size="10px"; padding: 4px; border-radius: 5px; margin: 0px 10px;">Not Worked</span></h1>
-                    </div>
-                    </div>
-                    
-                    </div>`
+            `<div class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
+            <div>
+            <img src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="" style="width: 50px;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+            <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
+            <div style="display: flex;">
+            <h1 style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role} | <span style="background-color: red; font-size="10px"; padding: 4px; border-radius: 5px; margin: 0px 10px;">Not Worked</span></h1>
+            </div>
+            </div>
+            
+            </div>`
                 }
                 }
 
