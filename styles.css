@@ -22,7 +22,9 @@
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
-
+.card_checked{
+    border: #0abd01 2px solid;
+}
 body{
     padding: 30px;
 }

@@ -2,7 +2,9 @@
 let container_ =document.querySelector(".container")
 let _container_add_worker =document.getElementById("container_add_worker")
 let disply_workers_container = document.getElementById("disply_workers")
+
 let container_display_workers_in_zone_ = document.getElementById("container_display_workers_in_zone")
+let container_disply_workeres_ = document.getElementById("container_disply_workeres")
 let display_add_worker = document.getElementById("container_add_worker")
 let nav_bar = document.getElementById("right_bar")
 
@@ -34,6 +36,7 @@ let number_regex = /^\+212[1-9]\d{8}$/
 let nome_regex = /^[A-Za-z]+(?: [A-Za-z]+)*$/  
 //======================== variables ================================//
 let zone_ckliked_id=null
+let arr_button_ids_clicked=[]
 //=======================================================================//
 ///////////////////////////////[Lissners]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //======================================================================//
@@ -41,25 +44,37 @@ let zone_ckliked_id=null
 //===============Added pressure on updates within Zone================//
 
 function add_click_to_elements_of_div(container_){
+    arr_button_ids_clicked=[]
     container_.addEventListener("click",(e)=>{
-        const card=e.target.closest("button")
-        const id_cliked  = card.dataset.id 
-        console.log(card)
         
-        for(emploiyer of Parsed_data){
-            if(emploiyer.id==id_cliked&&emploiyer.is_pointed==false){
-                console.log("ii")
-                emploiyer.is_pointed=true
-                emploiyer.zone_worked=zone_ckliked_id
-                update_data_in_localstorage()
-                break;
-            }
+        const card=e.target.closest("div")
+        const id_cliked  = card.dataset.id 
+        if(!arr_button_ids_clicked.includes(id_cliked)){
+            arr_button_ids_clicked.push(id_cliked)
+            card.classList.add("card_checked")
+
             
         }
-            window.location.reload()
+
         })
     }
-    
+
+    document.getElementById("add_all").addEventListener("click",()=>{
+             
+            for(emploiyer of Parsed_data){
+                if(arr_button_ids_clicked.includes(emploiyer.id)&&emploiyer.is_pointed==false){
+                    emploiyer.is_pointed=true
+                    emploiyer.zone_worked=zone_ckliked_id
+                    update_data_in_localstorage()
+                    
+                }
+            }
+               window.location.reload()  
+        })
+            
+
+
+
     function add__lisner_to_remove_element_in_zone(container_){
     container_.addEventListener("click",(e)=>{
         const card=e.target.closest("button")
@@ -281,9 +296,10 @@ function hideAddWorkerModal() {
 
 //function if click to button add worker in chacke zone displey all workers qui interess of this zone
 function Disply_worker_by_sale(sale){
+    
     let counter=0
-    container_display_workers_in_zone_.style.display="flex"
-    container_display_workers_in_zone_.innerHTML =""
+    container_disply_workeres_.style.display="flex"
+    // container_display_workers_in_zone_.innerHTML =""
     
     let roles = {
         "Reception": ["Manager", "Réceptionniste", "Nettoyage"],
@@ -295,19 +311,21 @@ function Disply_worker_by_sale(sale){
     }
 
     for(let [room, roomRoles] of Object.entries(roles)){
+        
         if(room == sale){
             for(let a of roomRoles){              
                 for(let User of Parsed_data){
                     if(User.role==a && User.is_pointed==false){
+                        
                       counter++
                        container_display_workers_in_zone_.innerHTML +=`
 
-                         <div id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;">
+                         <div class="" data-id="${User.id}" id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;">
                         <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
                         <span style="font-weight: 800;">${User.name}</span>
                         <span style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role}</span>
+                       
                         
-                        <button data-id="${User.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/add_circle_29dp_75FB4C.png); background-size: cover; position: relative;top:0;" id="add_or_remove"></button>
                         </div> 
                         `
 
@@ -316,8 +334,10 @@ function Disply_worker_by_sale(sale){
                 }
                 
             }
+
+
             if(counter==0){
-                window.location.reload()
+                // window.location.reload()
             }
         }
     }
@@ -489,10 +509,10 @@ window.addEventListener('click', function(e) {
     let zones_buttons = ["Salle_de_conférence","Réception","Salle_des_serveurs","Salle_de_sécurité","Salle_du_personnel","Salle_darchives"]
     const isClickInsideModal = container_display_workers_in_zone_.contains(e.target);
     const isClickOnAddButton = zones_buttons.includes(e.target.id) ;
-    if (container_display_workers_in_zone_.style.display == "flex") {
+    if (container_disply_workeres_.style.display == "flex") {
         if (!isClickInsideModal && !isClickOnAddButton) {
       
-           container_display_workers_in_zone_.style.display = "none"
+           container_disply_workeres_.style.display = "none"
 
         }
     }
