@@ -277,7 +277,7 @@ function get_data_from_localstorage_and_disply(){
         
    document.getElementById(emp.zone_worked).innerHTML+=
         `
-                         <div id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;">
+                         <div id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
                         <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${emp.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
                         <span style="font-weight: 800;">${emp.name}</span>
                         <span style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${emp.role}</span>
@@ -291,20 +291,20 @@ function get_data_from_localstorage_and_disply(){
 }
 
 // Function to show add worker modal
-get_data_from_localstorage_and_disply()
-function showAddWorkerModal() {
-    nav_bar.style.height = "fit-content";
-    nav_bar.style.display = "none";
-    display_add_worker.style.display = "block";
-    set_opacity(true);
-}
+// get_data_from_localstorage_and_disply()
+// function showAddWorkerModal() {
+//     nav_bar.style.height = "fit-content";
+//     nav_bar.style.display = "none";
+//     display_add_worker.style.display = "block";
+//     set_opacity(true);
+// }
 
-// Function to hide add worker modal
-function hideAddWorkerModal() {
-    display_add_worker.style.display = "none";
-    nav_bar.style.display = "block";
-    set_opacity(false);
-}
+// // Function to hide add worker modal
+// function hideAddWorkerModal() {
+//     display_add_worker.style.display = "none";
+//     nav_bar.style.display = "block";
+//     set_opacity(false);
+// }
 
 
 //function if click to button add worker in chacke zone displey all workers qui interess of this zone
@@ -335,7 +335,7 @@ function Disply_worker_by_sale(sale){
                       counter++
                        container_display_workers_in_zone_.innerHTML +=`
 
-                         <div class="" data-id="${User.id}" id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;">
+                         <div class="" data-id="${User.id}" id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
                         <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
                         <span style="font-weight: 800;">${User.name}</span>
                         <span style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role}</span>

@@ -98,28 +98,28 @@ h1{
  
     flex-shrink: 0;
     display: grid;
-    grid-template-columns: 1fr 1fr 0.5fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 0.5fr 1fr 1fr;
+    grid-template-columns: 20% 20% 5% 25% 25%;
+    grid-template-rows: 20% 20% 5% 25% 25%;
     gap: 8px;
     border: black solid 5px;
 }
 .div1 {
-    background-image: url(imges/zlij.png);
+  
     display:flex;
     justify-content: center;
     align-items: center;
     
-    background-color: aquamarine;
+    background-color: #E7E7E7;
     grid-column: span 2 / span 2;
     grid-row: span 2 / span 2;
 }
 
 .div2 {
-    background-image: url(imges/zlij.png);
+  
     display:flex;
     justify-content: center;
     align-items: center;
-      background-color: aquamarine;
+      background-color: #E7E7E7;
       
     grid-row: span 5 / span 5;
     grid-column-start: 3;
@@ -127,44 +127,49 @@ h1{
 }
 
 .div4 {
-    background-image: url(imges/zlij.png);
+  
     display:flex;
     justify-content: center;
     align-items: center;
-      background-color: aquamarine;
+      background-color: #E7E7E7;
     grid-row: span 2 / span 2;
 
     grid-column-start: 4;
 }
 
 .div5 {
-    background-image: url(imges/zlij.png);
+  
     display:flex;
     justify-content: center;
     align-items: center;
-      background-color: aquamarine;
+      background-color: #E7E7E7;
     grid-column: span 2 / span 2;
     grid-column-start: 4;
     grid-row-start: 3;
 }
 
 .div6 {
-    background-image: url(imges/zlij.png);
+  
     display:flex;
     justify-content: center;
     align-items: center;
-      background-color: aquamarine;
+      background-color: #E7E7E7;
     grid-row: span 2 / span 2;
     grid-column-start: 4;
     grid-row-start: 4;
 }
+   .right_bar{
+    /* width: 60%; */
+    display: none;
+        background-color: #ff0000;
 
+}
 .div7 {
-    background-image: url(imges/zlij.png);
+  
     display:flex;
     justify-content: center;
     align-items: center;
-      background-color: aquamarine;
+      background-color: #E7E7E7;
     grid-column: span 2 / span 2;
     grid-row: span 3 / span 3;
     grid-column-start: 1;
@@ -172,22 +177,22 @@ h1{
 }
 
 .div8 {
-    background-image: url(imges/zlij.png);
+    
     display:flex;
     justify-content: center;
     align-items: center;
-      background-color: aquamarine;
+      background-color: #E7E7E7;
     grid-row: span 2 / span 2;
     grid-column-start: 5;
     grid-row-start: 1;
 }
 
 .div9 {
-    background-image: url(imges/zlij.png);
+  
     display:flex;
     justify-content: center;
     align-items: center;
-      background-color: aquamarine;
+      background-color: #E7E7E7;
     grid-row: span 2 / span 2;
     grid-column-start: 5;
     grid-row-start: 4;
@@ -197,9 +202,12 @@ h1{
     .container {
      flex-direction: column;
      transition: all 5s;
+
 }
 .right_bar{
-    width: 60%;
+    /* width: 60%; */
+   display: none !important;
+   
 }
 }
 @media (max-width: 1024px) {
@@ -208,6 +216,12 @@ h1{
     height: 600px;
     transform: rotate(90deg);
    }
+   .right_bar{
+    /* width: 60%; */
+    display: none;
+        background-color: #ff0000;
+
+}
 }
 @media (max-width: 750px) {
    .parent{
@@ -215,12 +229,21 @@ h1{
     height: 450px;
    
    }
+   .right_bar{
+    /* width: 60%; */
+    display: none;
+    background-color: #ff0000;
+}
 }
 @media (max-width: 480px) {
    .parent{
     width: 350px;
     height: 350px;
    }
+   .right_bar{
+    /* width: 60%; */
+    display: none;
+}
 }
 @media (max-width: 360px) {
    .parent{
