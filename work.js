@@ -49,12 +49,25 @@ function add_click_to_elements_of_div(container_){
         
         const card=e.target.closest("div")
         const id_cliked  = card.dataset.id 
-        if(!arr_button_ids_clicked.includes(id_cliked)){
+        
+        if(card.classList.value==""){
             arr_button_ids_clicked.push(id_cliked)
-            card.classList.add("card_checked")
-
             
+            console.log(arr_button_ids_clicked)
+            card.classList.add("card_checked")
+        }else {
+            arr_button_ids_clicked.splice(id_cliked,1)
+
+        card.classList.remove("card_checked")
+        
+        console.log(arr_button_ids_clicked)
+
         }
+        // if(arr_button_ids_clicked.includes(id_cliked)){
+           
+            
+
+        // }
 
         })
     }
@@ -296,9 +309,10 @@ function hideAddWorkerModal() {
 
 //function if click to button add worker in chacke zone displey all workers qui interess of this zone
 function Disply_worker_by_sale(sale){
-    
+    container_display_workers_in_zone_.innerHTML=""  
     let counter=0
-    container_disply_workeres_.style.display="flex"
+
+   
     // container_display_workers_in_zone_.innerHTML =""
     
     let roles = {
@@ -311,12 +325,13 @@ function Disply_worker_by_sale(sale){
     }
 
     for(let [room, roomRoles] of Object.entries(roles)){
-        
+       
         if(room == sale){
-            for(let a of roomRoles){              
+            for(let a of roomRoles){    
+                        
                 for(let User of Parsed_data){
                     if(User.role==a && User.is_pointed==false){
-                        
+                         container_disply_workeres_.style.display="flex"
                       counter++
                        container_display_workers_in_zone_.innerHTML +=`
 
