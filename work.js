@@ -8,6 +8,8 @@ let container_disply_workeres_ = document.getElementById("container_disply_worke
 let display_add_worker = document.getElementById("container_add_worker")
 let nav_bar = document.getElementById("right_bar")
 
+let button_hide_nav = document.getElementById("button_hide_nav")
+
 //=================form declared ======================//
 let input_name = document.getElementById("input_name")
 let input_img_url = document.getElementById("input_img_url")
@@ -41,6 +43,8 @@ let arr_button_ids_clicked=[]
 ///////////////////////////////[Lissners]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //======================================================================//
 // localStorage.removeItem("users")
+
+calcule_emploiyeers_notassigned()
 //===============Added pressure on updates within Zone================//
 
 function add_click_to_elements_of_div(container_){
@@ -55,12 +59,13 @@ function add_click_to_elements_of_div(container_){
             
             console.log(arr_button_ids_clicked)
             card.classList.add("card_checked")
+           
         }else {
             arr_button_ids_clicked.splice(id_cliked,1)
 
         card.classList.remove("card_checked")
         
-        console.log(arr_button_ids_clicked)
+        
 
         }
         // if(arr_button_ids_clicked.includes(id_cliked)){
@@ -82,6 +87,7 @@ function add_click_to_elements_of_div(container_){
                     
                 }
             }
+              
                window.location.reload()  
         })
             
@@ -103,6 +109,7 @@ function add_click_to_elements_of_div(container_){
                 break
             }
         }
+             
              window.location.reload()
         })
     }
@@ -124,6 +131,24 @@ function add_click_to_elements_of_div(container_){
     add__lisner_to_remove_element_in_zone(container_Salle_darchives)
     
     
+//=========================================================================//
+button_hide_nav.addEventListener("click",()=>{
+if(disply_workers_container.style.display=="flex"||disply_workers_container.style.display=="block"){
+
+    disply_workers_container.style.display="none" 
+    nav_bar.style.height="fit-content" 
+    
+
+}else{
+    disply_workers_container.style.display="block" 
+     nav_bar.style.height="75vh" 
+     
+}
+
+})
+
+
+
     //======================== Clicking the + button inside each zone ========================//
     
     let _Salle_de_conférence = document.getElementById("Salle_de_conférence")
@@ -189,7 +214,15 @@ Select_Role.addEventListener("change",()=>{
             // }
             //console.log(check_date("21/10/2006","21/1/2006"))
 
-
+function calcule_emploiyeers_notassigned(){
+    let count =0
+    for(emp of Parsed_data){
+        if(!emp.is_pointed){
+           count++
+        }
+    }
+    document.getElementById("total_not_assgned").textContent=count.toString()
+}
 //======================== add image to the input if you coole link ========================//
             function Disply_Img(){
                 input_img_url.addEventListener("keyup",()=>{
@@ -265,7 +298,7 @@ Select_Role.addEventListener("change",()=>{
 
 //function update data in localstorage
 function update_data_in_localstorage(){
-    
+    calcule_emploiyeers_notassigned()
     localStorage.setItem("users",JSON.stringify(Parsed_data))
 }
 
@@ -288,23 +321,24 @@ function get_data_from_localstorage_and_disply(){
         `
        }
     }
+    calcule_emploiyeers_notassigned()
 }
 
-// Function to show add worker modal
-// get_data_from_localstorage_and_disply()
-// function showAddWorkerModal() {
-//     nav_bar.style.height = "fit-content";
-//     nav_bar.style.display = "none";
-//     display_add_worker.style.display = "block";
-//     set_opacity(true);
-// }
+//Function to show add worker modal
+get_data_from_localstorage_and_disply()
+function showAddWorkerModal() {
 
-// // Function to hide add worker modal
-// function hideAddWorkerModal() {
-//     display_add_worker.style.display = "none";
-//     nav_bar.style.display = "block";
-//     set_opacity(false);
-// }
+    nav_bar.style.display = "none";
+    display_add_worker.style.display = "block";
+    set_opacity(true);
+}
+
+// Function to hide add worker modal
+function hideAddWorkerModal() {
+    display_add_worker.style.display = "none";
+    nav_bar.style.display = "block";
+    set_opacity(false);
+}
 
 
 //function if click to button add worker in chacke zone displey all workers qui interess of this zone
