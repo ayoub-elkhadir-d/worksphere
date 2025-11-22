@@ -65,20 +65,39 @@ function add_click_to_elements_of_div(container_){
     container_.addEventListener("click",(e)=>{
         const card=e.target.closest("div")
         const id_cliked  = card.dataset.id 
-        
-          
-        console.log(emploiyer_selected<=limet_zones(zone_ckliked_id))
-        console.log(emploiyer_selected,limet_zones(zone_ckliked_id))
-        
+
         if(card.classList.value==""){
-            if(emploiyer_selected<limet_zones(zone_ckliked_id)){
+            if(is_posible_to_add_emploiyer()){
             emploiyer_selected++   
             arr_button_ids_clicked.push(id_cliked)
             
             
             card.classList.add("card_checked")
-           
+            
         }
+        else if(is_posible_to_add_emploiyer()==null){
+            for (let elm = 0; elm <container_.childNodes.length ; elm++) {
+                 if(container_.childNodes[elm].dataset){
+                    if(!arr_button_ids_clicked.includes(container_.childNodes[elm].dataset.id))
+                    container_.childNodes[elm].style.opacity="0.2";
+
+                 }else{
+                    continue
+                 }
+                
+                
+            }
+        }
+            
+            // for(emploiyer of Parsed_data){
+ 
+                
+            //      if(emploiyer.zone_worked==null){
+            //     }
+            // }
+            
+           //console.log(container_.childNodes.length)
+        
     }else {
         emploiyer_selected --
         arr_button_ids_clicked.splice(id_cliked,1)
@@ -160,10 +179,14 @@ function add_click_to_elements_of_div(container_){
         })
         
     }
-    function add_(zone){
-         if(get_legnth_of_emploiyes_in_zone(zone)<=limet_zones(zone)){
+    function is_posible_to_add_emploiyer(){
+         if(emploiyer_selected<limet_zones(zone_ckliked_id)){
             return true
-         }else{
+         }else if(emploiyer_selected==limet_zones(zone_ckliked_id)){
+            
+            return null
+         }
+         else{
             return false
          }
     }
@@ -235,6 +258,7 @@ function add_click_to_elements_of_div(container_){
     let container_Salle_darchives = document.getElementById("display_persons_d’archives")
     
     add_click_to_elements_of_div(container_display_workers_in_zone_)
+    
     add__lisner_to_remove_element_in_zone(container_Salle_de_conférence)
     add__lisner_to_remove_element_in_zone(container_Réception)
     add__lisner_to_remove_element_in_zone(container_Salle_des_serveurs)
