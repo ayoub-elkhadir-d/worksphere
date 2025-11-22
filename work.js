@@ -2,6 +2,7 @@
 let container_ =document.querySelector(".container")
 let _container_add_worker =document.getElementById("container_add_worker")
 let disply_workers_container = document.getElementById("disply_workers")
+let person_info_ = document.getElementById("person_info")
 
 let container_display_workers_in_zone_ = document.getElementById("container_display_workers_in_zone")
 let container_disply_workeres_ = document.getElementById("container_disply_workeres")
@@ -94,24 +95,94 @@ function add_click_to_elements_of_div(container_){
 
 
 
-    function add__lisner_to_remove_element_in_zone(container_){
+    function add__lisner_to_raficher_info(container_){
+        person_info_.innerHTML=""
+        
     container_.addEventListener("click",(e)=>{
-        const card=e.target.closest("button")
+        let ckliked=false
+        const card=e.target.closest("div")
         const id_cliked  = card.dataset.id 
-        console.log(card)
+         console.log(id_cliked)
         
         for(emploiyer of Parsed_data){
-           if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
-                console.log("i")
-                emploiyer.is_pointed=false
-                emploiyer.zone_worked=null
-                update_data_in_localstorage()
+           if(emploiyer.id==id_cliked){
+               ckliked=true
+              person_info_.style.display="flex"
+                person_info_.innerHTML=
+                `
+                <img src="imges/${emploiyer.input_img_url}" style="height: 50px;width: 50px;" alt="">
+                    <span style="font-weight: 800;text-align: center;">${emploiyer.name}</span>
+                    <span>Role :${emploiyer.role}</span>
+                    <span>email :${emploiyer.email}</span>
+                    <span>num :${emploiyer.input_num_tele} </span>
+                    <div>
+                <div id="container_experiences" style="display: flex;flex-direction: column; gap: 10px; height: 150px; overflow-y: scroll;">
+                    <span style="font-weight: 800;text-align: center; position: sticky;top: 0px;background-color: #A1A1A1;">Experiences</span>
+
+
+             </div>
+                `
+                for(ex of emploiyer.experience){
+                    container_experiences.innerHTML+=
+                    `
+                    <div id="experiencee_" style="display: flex;flex-direction: column;background-color:#cecece; box-shadow: 0px 0px 10px rgb(21, 21, 21); padding: 10px; gap: 10px;">
+
+                        <span>company :${ex.company}</span>
+                        <span>role:${ex.role_experience}</span>
+                        <span>date to :${ex.date_from}</span>
+                        <span>date from:${ex.date_to}</span>
+                        
+                    </div>
+                    `
+                }
                 break
             }
         }
              
-             window.location.reload()
+           
+        window.addEventListener('click', function(e) {  
+            ckliked=false
+            const isClickInsideModal = person_info_.contains(e.target);
+            const clicked_indiv = ckliked
+             console.log("inside : "+isClickInsideModal)
+             console.log("in div : "+clicked_indiv)
+            if (person_info_.style.display == "flex") {
+                // if (!isClickInsideModal && !clicked_indiv) {
+                   
+              
+                //    person_info_.style.display = "none"
+        
+                // }
+            }
+        });
         })
+    }
+
+   
+
+    function add__lisner_to_remove_element_in_zone(container_){
+    container_.addEventListener("click",(e)=>{
+        if(e.target.closest("button")){
+            
+            const card=e.target.closest("button")
+            const id_cliked  = card.dataset.id 
+            console.log(card)
+            
+            for(emploiyer of Parsed_data){
+               if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
+                    console.log("i")
+                    emploiyer.is_pointed=false
+                    emploiyer.zone_worked=null
+                    update_data_in_localstorage()
+                    break
+                }
+            }
+            window.location.reload()
+        }else add__lisner_to_raficher_info(container_) 
+             
+        })
+
+        
     }
 
 
@@ -296,6 +367,8 @@ function calcule_emploiyeers_notassigned(){
 //**************************[Functions]*******************************
 //======================================================================//
 
+//======================================================================//
+
 //function update data in localstorage
 function update_data_in_localstorage(){
     calcule_emploiyeers_notassigned()
@@ -310,7 +383,7 @@ function get_data_from_localstorage_and_disply(){
         
    document.getElementById(emp.zone_worked).innerHTML+=
         `
-                         <div id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
+                         <div id="profile" data-id="${emp.id}" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
                         <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${emp.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
                         <span style="font-weight: 800;">${emp.name}</span>
                         <span style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${emp.role}</span>
@@ -497,9 +570,9 @@ function get_data(){
 
     let experience_o = {
         "company" : input_company.value,
-        "role experience" : role_experience.value,
-        "date from" : date_from.value,
-        "date to" : date_to.value,
+        "role_experience" : role_experience.value,
+        "date_from" : date_from.value,
+        "date_to" : date_to.value,
     }
 
     experience.push(experience_o)
