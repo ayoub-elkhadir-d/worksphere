@@ -39,9 +39,20 @@ let number_regex = /^\+212[1-9]\d{8}$/
 let nome_regex = /^[A-Za-z]+(?: [A-Za-z]+)*$/  
 //======================== variables ================================//
 let zone_ckliked_id=null
+let emploiyer_selected=0
 let arr_button_ids_clicked=[]
 //=======================================================================//
 ///////////////////////////////[Lissners]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+
+let limits = {
+"display_persons_Réception":5,
+"display_persons_serveurs" :3,
+"display_persons_sécurité":4,
+"display_persons_personnel":3,
+"display_persons_conférence":5,
+"display_persons_d’archives":2
+}
 //======================================================================//
 // localStorage.removeItem("users")
 
@@ -50,31 +61,31 @@ calcule_emploiyeers_notassigned()
 
 function add_click_to_elements_of_div(container_){
     arr_button_ids_clicked=[]
+    // let emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
     container_.addEventListener("click",(e)=>{
-        
         const card=e.target.closest("div")
         const id_cliked  = card.dataset.id 
         
+          
+        console.log(emploiyer_selected<=limet_zones(zone_ckliked_id))
+        console.log(emploiyer_selected,limet_zones(zone_ckliked_id))
+        
         if(card.classList.value==""){
+            if(emploiyer_selected<limet_zones(zone_ckliked_id)){
+            emploiyer_selected++   
             arr_button_ids_clicked.push(id_cliked)
             
-            console.log(arr_button_ids_clicked)
+            
             card.classList.add("card_checked")
            
-        }else {
-            arr_button_ids_clicked.splice(id_cliked,1)
+        }
+    }else {
+        emploiyer_selected --
+        arr_button_ids_clicked.splice(id_cliked,1)
 
         card.classList.remove("card_checked")
         
-        
-
-        }
-        // if(arr_button_ids_clicked.includes(id_cliked)){
-           
-            
-
-        // }
-
+         }
         })
     }
 
@@ -99,22 +110,24 @@ function add_click_to_elements_of_div(container_){
         person_info_.innerHTML=""
         
     container_.addEventListener("click",(e)=>{
-        let ckliked=false
+        
         const card=e.target.closest("div")
         const id_cliked  = card.dataset.id 
          console.log(id_cliked)
         
-        for(emploiyer of Parsed_data){
-           if(emploiyer.id==id_cliked){
-               ckliked=true
+    for(emploiyer of Parsed_data){
+  
               person_info_.style.display="flex"
                 person_info_.innerHTML=
                 `
+            <div style="display: flex;width: 100%; justify-content: flex-end;">
+            <button id="button_cancell_" style="display: flex; padding: 10px; border-radius: 50px; background-color: #f95959;">-</button>
+            </div>
                 <img src="imges/${emploiyer.input_img_url}" style="height: 50px;width: 50px;" alt="">
-                    <span style="font-weight: 800;text-align: center;">${emploiyer.name}</span>
-                    <span>Role :${emploiyer.role}</span>
-                    <span>email :${emploiyer.email}</span>
-                    <span>num :${emploiyer.input_num_tele} </span>
+                    <span style="font-weight: 800;text-align: center; cursor: pointer;">${emploiyer.name}</span>
+                    <span style="cursor: pointer;">Role :${emploiyer.role}</span>
+                    <span style="cursor: pointer;">email :${emploiyer.email}</span>
+                    <span style="cursor: pointer;">num :${emploiyer.input_num_tele} </span>
                     <div>
                 <div id="container_experiences" style="display: flex;flex-direction: column; gap: 10px; height: 150px; overflow-y: scroll;">
                     <span style="font-weight: 800;text-align: center; position: sticky;top: 0px;background-color: #A1A1A1;">Experiences</span>
@@ -122,6 +135,7 @@ function add_click_to_elements_of_div(container_){
 
              </div>
                 `
+                cancel()
                 for(ex of emploiyer.experience){
                     container_experiences.innerHTML+=
                     `
@@ -136,29 +150,47 @@ function add_click_to_elements_of_div(container_){
                     `
                 }
                 break
+       
             }
-        }
+            
+        
              
            
-        window.addEventListener('click', function(e) {  
-            ckliked=false
-            const isClickInsideModal = person_info_.contains(e.target);
-            const clicked_indiv = ckliked
-             console.log("inside : "+isClickInsideModal)
-             console.log("in div : "+clicked_indiv)
-            if (person_info_.style.display == "flex") {
-                // if (!isClickInsideModal && !clicked_indiv) {
-                   
-              
-                //    person_info_.style.display = "none"
-        
-                // }
-            }
-        });
+   
         })
+        
+    }
+    function add_(zone){
+         if(get_legnth_of_emploiyes_in_zone(zone)<=limet_zones(zone)){
+            return true
+         }else{
+            return false
+         }
     }
 
-   
+   function limet_zones(zone){
+    let limit =0
+   for(zone_ of Object.entries(limits) ){
+       if(zone_[0]==zone){
+        limit= zone_[1]
+        break;
+       
+       }
+   }
+   return limit
+   }
+
+    function get_legnth_of_emploiyes_in_zone(zone){
+        let count=0
+        for(emp of Parsed_data){
+            if(emp.zone_worked==zone){
+      count++
+            }
+        }
+        return count
+    }
+
+
 
     function add__lisner_to_remove_element_in_zone(container_){
     container_.addEventListener("click",(e)=>{
@@ -178,14 +210,23 @@ function add_click_to_elements_of_div(container_){
                 }
             }
             window.location.reload()
-        }else add__lisner_to_raficher_info(container_) 
+        }else{
+
+            add__lisner_to_raficher_info(container_) 
+            cancel()
+        } 
              
         })
 
         
     }
 
-
+ function cancel() {
+        document.getElementById("button_cancell_").addEventListener("click",()=>{
+            console.log("b")
+        person_info_.style.display="none"
+    })
+ }
     let container_Salle_de_conférence = document.getElementById("display_persons_conférence")
     let container_Réception = document.getElementById("display_persons_Réception")
     let container_Salle_des_serveurs = document.getElementById("display_persons_serveurs")
@@ -234,6 +275,7 @@ if(disply_workers_container.style.display=="flex"||disply_workers_container.styl
     _Salle_de_conférence.addEventListener("click", () => {
                 zone_ckliked_id="display_persons_conférence"
                 Disply_worker_by_sale("Salle de conférence")
+                emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
                 // container_display_workers_in_zone_.style.display="block"
 
                 
@@ -242,14 +284,14 @@ if(disply_workers_container.style.display=="flex"||disply_workers_container.styl
 _Réception.addEventListener("click", () => {
                 zone_ckliked_id="display_persons_Réception"
                 Disply_worker_by_sale("Reception")
-            
+            emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
                 
             })
 
 _Salle_des_serveurs.addEventListener("click", () => {
              zone_ckliked_id="display_persons_serveurs"
                 Disply_worker_by_sale("Salle des serveurs")
-                
+                emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
             })
 
 
@@ -257,19 +299,19 @@ _Salle_des_serveurs.addEventListener("click", () => {
  _Salle_de_sécurité.addEventListener("click", () => {
             zone_ckliked_id="display_persons_sécurité"
             Disply_worker_by_sale("Salle de sécurité")
-                
+                emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
             })
 
  _Salle_du_personnel.addEventListener("click", () => {
     zone_ckliked_id="display_persons_personnel"
                 Disply_worker_by_sale("Salle du personnel")
-                
+                emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
             })
 
  _Salle_darchives.addEventListener("click", () => {
     zone_ckliked_id="display_persons_d’archives"
                 Disply_worker_by_sale("Salle d'archives")
-                
+                emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
             })
 
 Select_Role.addEventListener("change",()=>{
@@ -430,6 +472,7 @@ function Disply_worker_by_sale(sale){
         "Salle de conférence": ["Manager", "Réceptionniste", "Technicien IT", "Agent de sécurité", "Nettoyage", "Autres"],
         "Salle d'archives": ["Manager"]
     }
+    
 
     for(let [room, roomRoles] of Object.entries(roles)){
        
