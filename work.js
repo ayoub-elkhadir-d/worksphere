@@ -54,6 +54,14 @@ let limits = {
 "display_persons_conférence":5,
 "display_persons_d’archives":2
 }
+let zones_ids = [
+"display_persons_Réception",
+"display_persons_serveurs",
+"display_persons_sécurité",
+"display_persons_personnel",
+"display_persons_conférence",
+"display_persons_d’archives"
+]
 //======================================================================//
 // localStorage.removeItem("users")
 
@@ -234,7 +242,7 @@ function add_click_to_elements_of_div(){
         }else{
 
             add__lisner_to_raficher_info(container_) 
-            cancel()
+            
         } 
              
         })
@@ -248,8 +256,30 @@ function add_click_to_elements_of_div(){
         person_info_.style.display="none"
     })
  }
-    let container_Salle_de_conférence = document.getElementById("display_persons_conférence")
-    let container_Réception = document.getElementById("display_persons_Réception")
+
+ function disply_bacground_red_(){
+     
+     for(zone of zones_ids){
+         let count =false
+         for(data of Parsed_data){
+             if(data.zone_worked==zone){
+                 count = true
+                 break
+                 
+                }
+         } 
+         if(!count){
+           // console.log("con_"+zone)
+            document.getElementById("con_"+zone).style.backgroundColor="#ef000035"
+            }else continue
+            
+    }
+    
+    
+}
+disply_bacground_red_()
+let container_Salle_de_conférence = document.getElementById("display_persons_conférence")
+let container_Réception = document.getElementById("display_persons_Réception")
     let container_Salle_des_serveurs = document.getElementById("display_persons_serveurs")
     let container_Salle_de_sécurité = document.getElementById("display_persons_sécurité")
     let container_Salle_du_personnel = document.getElementById("display_persons_personnel")
@@ -692,10 +722,8 @@ window.addEventListener('click', function(e) {
         }
     }
 });
-function responsive_help(){
 
-}
-window.addEventListener("resize", (event) => { 
+window.addEventListener("resize", () => { 
     
     if(window.screen.width< 760){
       disply_workers_container.style.display="none" 
