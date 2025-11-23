@@ -30,8 +30,9 @@ let date_to = document.getElementById("date_to")
 let form_add_ex_ = document.getElementById("container_form_experience")
 let form_add_ex_inputs = form_add_ex_.querySelectorAll("input")
 let button_add_ex_ = document.getElementById("button_add_ex")
+//==========================othre==================================//
+let counter_ =document.getElementById("counter")
 //==========================Json==================================//
-
 let Parsed_data = JSON.parse(localStorage.getItem("users") || "[]");
 let experience = []
 //======================== regex ================================//
@@ -43,6 +44,8 @@ let zone_ckliked_id=null
 let emploiyer_selected=0
 let arr_button_ids_clicked=[]
 //=======================================================================//
+
+calcule_emploiyeers_notassigned()
 ///////////////////////////////[Lissners]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
@@ -65,256 +68,67 @@ let zones_ids = [
 //======================================================================//
 // localStorage.removeItem("users")
 
-calcule_emploiyeers_notassigned()
-//===============Added pressure on updates within Zone================//
-
-function add_click_to_elements_of_div(){
-    arr_button_ids_clicked=[]
-    const container = container_display_workers_in_zone_
-    // let emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
-    container.addEventListener("click",(e)=>{
-        const card=e.target.closest("div")
-        const id_cliked  = card.dataset.id 
-        
-        if(card.classList.value==""){
-                    if(is_posible_to_add_emploiyer()){
-                    emploiyer_selected++   
-                    arr_button_ids_clicked.push(id_cliked)
-                    
-                    
-                    card.classList.add("card_checked")
-                    
-                }
-                        if(!is_posible_to_add_emploiyer()){
-                        for (let elm = 0; elm <container.childNodes.length ; elm++) {
-                                if(container.childNodes[elm].dataset){
-                                    if(!arr_button_ids_clicked.includes(container.childNodes[elm].dataset.id))
-                                    container.childNodes[elm].style.cursor="not-allowed";
-
-                                }else{
-                                    continue
-                                }
-                        
-                        
-                    }
-                    
-                    }else{
-                        container.style.opacity="1";
-                    }
-       
-        
-    }else {
-        emploiyer_selected --
-        arr_button_ids_clicked.splice(id_cliked,1)
-
-        card.classList.remove("card_checked")
-        
-         }
-        })
-    }
-
-    document.getElementById("add_all").addEventListener("click",()=>{
-             
-            for(emploiyer of Parsed_data){
-                if(arr_button_ids_clicked.includes(emploiyer.id)&&emploiyer.is_pointed==false){
-                    emploiyer.is_pointed=true
-                    emploiyer.zone_worked=zone_ckliked_id
-                    update_data_in_localstorage()
-                    
-                }
-            }
-              
-               window.location.reload()  
-        })
-            
 
 
-
-    function add__lisner_to_raficher_info(container_){
-        person_info_.innerHTML=""
-        
-    container_.addEventListener("click",(e)=>{
-        
-        const card=e.target.closest("div")
-        const id_cliked  = card.dataset.id 
-         console.log(id_cliked)
-        
-    for(emploiyer of Parsed_data){
-     if(emploiyer.id==id_cliked){
-              person_info_.style.display="flex"
-                person_info_.innerHTML=
-                `
-            <div style="display: flex;width: 100%; justify-content: flex-end;">
-            <button id="button_cancell_" style="display: flex; padding: 10px; border-radius: 50px; background-color: #f95959;">-</button>
-            </div>
-                <img src="imges/${emploiyer.input_img_url}" style="height: 50px;width: 50px;" alt="">
-                    <span style="font-weight: 800;text-align: center; cursor: pointer;">${emploiyer.name}</span>
-                    <span style="cursor: default;">Role :${emploiyer.role}</span>
-                    <span style="cursor: default;">email :${emploiyer.email}</span>
-                    <span style="cursor: default;"">num :${emploiyer.input_num_tele} </span>
-                    <div>
-                <div id="container_experiences" style="display: flex;flex-direction: column; gap: 10px; height: 150px; overflow-y: scroll;">
-                    <span style="font-weight: 800;text-align: center; position: sticky;top: 0px;background-color: #A1A1A1;">Experiences</span>
-
-
-             </div>
-                `
-                cancel()
-                for(ex of emploiyer.experience){
-                    container_experiences.innerHTML+=
-                    `
-                    <div id="experiencee_" style="display: flex;flex-direction: column;background-color:#cecece; box-shadow: 0px 0px 10px rgb(21, 21, 21); padding: 10px; gap: 10px;">
-
-                        <span>company :${ex.company}</span>
-                        <span>role:${ex.role_experience}</span>
-                        <span>date to :${ex.date_from}</span>
-                        <span>date from:${ex.date_to}</span>
-                        
-                    </div>
-                    `
-                }
-                break
-       
-            }
-            }
-        
-             
-           
+function Disply_worker_by_sale(sale){
+    container_display_workers_in_zone_.innerHTML="" 
    
-        })
-        
-    }
-    add__lisner_to_raficher_info(disply_workers_container)
-    function is_posible_to_add_emploiyer(){
-         if(emploiyer_selected<limet_zones(zone_ckliked_id)){
-            return true
-         }else if(emploiyer_selected==limet_zones(zone_ckliked_id)){
-            
-            return null
-         }
-         else{
-            return false
-         }
-    }
+    let counter=0
 
-   function limet_zones(zone){
-    let limit =0
-   for(zone_ of Object.entries(limits) ){
-       if(zone_[0]==zone){
-        limit= zone_[1]
-        break;
+   
+    // container_display_workers_in_zone_.innerHTML =""
+    
+    let roles = {
+        "Reception": ["Manager", "Réceptionniste", "Nettoyage"],
+        "Salle des serveurs" : ["Manager", "Technicien IT", "Nettoyage"],
+        "Salle de sécurité":["Manager", "Agent de sécurité", "Nettoyage"],
+        "Salle du personnel": ["Manager", "Réceptionniste", "Technicien IT", "Agent de sécurité", "Nettoyage", "Autres"],
+        "Salle de conférence": ["Manager", "Réceptionniste", "Technicien IT", "Agent de sécurité", "Nettoyage", "Autres"],
+        "Salle d'archives": ["Manager"]
+    }
+    
+
+    for(let [room, roomRoles] of Object.entries(roles)){
        
-       }
-   }
-   return limit
-   }
+        if(room == sale){
 
-    function get_legnth_of_emploiyes_in_zone(zone){
-        let count=0
-        for(emp of Parsed_data){
-            if(emp.zone_worked==zone){
-      count++
+            for(let a of roomRoles){    
+                        
+                for(let User of Parsed_data){
+                    if(User.role==a && User.is_pointed==false){
+                    
+                         container_disply_workeres_.style.display="flex"
+                      counter++
+                       container_display_workers_in_zone_.innerHTML +=`
+                      <div id="ggfggg" style="display: flex;">
+                         <div class="" data-id="${User.id}" id="profile" style="cursor: pointer; display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
+                        <img style="  width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
+                        <span style=" font-weight: 800;">${User.name}</span>
+                        <span style="  padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role}</span>
+                         </div>
+
+                        </div> 
+                        `
+
+                   
+                    }
+                }
+                
             }
+
+
+            // if(counter==0){
+            //     // window.location.reload()
+            // }
         }
-        return count
     }
-
-
-
-    function add__lisner_to_remove_element_in_zone(container_){
-    container_.addEventListener("click",(e)=>{
-        if(e.target.closest("button")){
-            
-            const card=e.target.closest("button")
-            const id_cliked  = card.dataset.id 
-            console.log(card)
-            
-            for(emploiyer of Parsed_data){
-               if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
-                    console.log("i")
-                    emploiyer.is_pointed=false
-                    emploiyer.zone_worked=null
-                    update_data_in_localstorage()
-                    break
-                }
-            }
-            window.location.reload()
-        }else{
-
-            add__lisner_to_raficher_info(container_) 
-            
-        } 
-             
-        })
-
-        
-    }
-
- function cancel() {
-        document.getElementById("button_cancell_").addEventListener("click",()=>{
-            console.log("b")
-        person_info_.style.display="none"
-    })
- }
-
- function disply_bacground_red_(){
-     
-     for(zone of zones_ids){
-         let count =false
-         for(data of Parsed_data){
-             if(data.zone_worked==zone){
-                 count = true
-                 break
-                 
-                }
-         } 
-         if(!count){
-           // console.log("con_"+zone)
-            document.getElementById("con_"+zone).style.backgroundColor="#ef000035"
-            }else continue
-            
-    }
-    
-    
 }
-disply_bacground_red_()
-let container_Salle_de_conférence = document.getElementById("display_persons_conférence")
-let container_Réception = document.getElementById("display_persons_Réception")
-    let container_Salle_des_serveurs = document.getElementById("display_persons_serveurs")
-    let container_Salle_de_sécurité = document.getElementById("display_persons_sécurité")
-    let container_Salle_du_personnel = document.getElementById("display_persons_personnel")
-    let container_Salle_darchives = document.getElementById("display_persons_d’archives")
-    
-    add_click_to_elements_of_div()
-    
-    add__lisner_to_remove_element_in_zone(container_Salle_de_conférence)
-    add__lisner_to_remove_element_in_zone(container_Réception)
-    add__lisner_to_remove_element_in_zone(container_Salle_des_serveurs)
-    add__lisner_to_remove_element_in_zone(container_Salle_de_sécurité)
-    add__lisner_to_remove_element_in_zone(container_Salle_du_personnel)
-    add__lisner_to_remove_element_in_zone(container_Salle_darchives)
-    
-    
-//=========================================================================//
-button_hide_nav.addEventListener("click",()=>{
-if(disply_workers_container.style.display=="flex"||disply_workers_container.style.display=="block"){
-
-    disply_workers_container.style.display="none" 
-    nav_bar.style.height="fit-content" 
-    
-
-}else{
-    disply_workers_container.style.display="block" 
-     nav_bar.style.height="75vh" 
-     
-}
-
-})
-
 
 
     //======================== Clicking the + button inside each zone ========================//
     
+
+
     let _Salle_de_conférence = document.getElementById("Salle_de_conférence")
     let _Réception = document.getElementById("Réception")
     let _Salle_des_serveurs = document.getElementById("Salle_des_serveurs")
@@ -371,27 +185,328 @@ Select_Role.addEventListener("change",()=>{
             })
  //============================================================================================//
 
+//===============Added pressure on updates within Zone================//
 
-            // function check_date(date_from,date_to){
-            // if(date_from<date_to){
-            //     console.log("no")
-            // }
-            // }
-            //console.log(check_date("21/10/2006","21/1/2006"))
+function add_click_to_elements_of_div(){
+    arr_button_ids_clicked=[]
+    const container = container_display_workers_in_zone_
+    
 
-function calcule_emploiyeers_notassigned(){
-    let not_assgned =0
-    let assgned =0
-    for(emp of Parsed_data){
-        if(!emp.is_pointed){
-           not_assgned++
-        }else{
-          assgned++
-        }
+    container.addEventListener("click",(e)=>{
+        
+        const card=e.target.closest("div")
+        const id_cliked  = card.dataset.id 
+        
+        if(!card.classList.contains("card_checked")){
+                    if(is_posible_to_add_emploiyer()){
+                    emploiyer_selected++   
+                    arr_button_ids_clicked.push(id_cliked)
+                    card.classList.add("card_checked")
+                    
+                    
+                }
+                      
+       
+        
+    }else {
+        emploiyer_selected --
+        arr_button_ids_clicked.splice(id_cliked,1)
+
+        card.classList.remove("card_checked")
+        
+         }
+        })
     }
-    document.getElementById("total_not_assgned").textContent=`Unassigned:${not_assgned.toString()}`
-    document.getElementById("total_assigned_").textContent=`Assigned:${assgned.toString()}`
+
+    document.getElementById("add_all").addEventListener("click",()=>{
+             
+            for(emploiyer of Parsed_data){
+                if(arr_button_ids_clicked.includes(emploiyer.id)&&emploiyer.is_pointed==false){
+                    emploiyer.is_pointed=true
+                    emploiyer.zone_worked=zone_ckliked_id
+                    update_data_in_localstorage()
+                    
+                }
+            }
+              
+               window.location.reload()  
+        })
+
+        add_click_to_elements_of_div()  
+            
+//)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+
+function add__lisner_to_raficher_info(container_){
+        person_info_.innerHTML=""
+        
+    container_.addEventListener("click",(e)=>{
+        
+        const card=e.target.closest("div")
+        const id_cliked  = card.dataset.id 
+         console.log(id_cliked)
+        
+    for(emploiyer of Parsed_data){
+     if(emploiyer.id==id_cliked){
+              person_info_.style.display="flex"
+                person_info_.innerHTML=
+                `
+            <div style="display: flex;width: 100%; justify-content: flex-end;">
+            <button id="button_cancell_" style="display: flex; padding: 10px; border-radius: 50px; background-color: #f95959;">-</button>
+            </div>
+                <img src="imges/${emploiyer.input_img_url}" style="height: 50px;width: 50px;" alt="">
+                    <span style="font-weight: 800;text-align: center; cursor: pointer;">${emploiyer.name}</span>
+                    <span style="cursor: default;">Role :${emploiyer.role}</span>
+                    <span style="cursor: default;">email :${emploiyer.email}</span>
+                    <span style="cursor: default;"">num :${emploiyer.input_num_tele} </span>
+                    <div>
+                <div id="container_experiences" style="display: flex;flex-direction: column; gap: 10px; height: 150px; overflow-y: scroll;">
+                    <span style="font-weight: 800;text-align: center; position: sticky;top: 0px;background-color: #A1A1A1;">Experiences</span>
+
+
+             </div>
+                `
+                cancel()
+                for(ex of emploiyer.experience){
+                    container_experiences.innerHTML+=
+                    `
+                    <div id="experiencee_" style="display: flex;flex-direction: column;background-color:#cecece; box-shadow: 0px 0px 10px rgb(21, 21, 21); padding: 10px; gap: 10px;">
+
+                        <span>company :${ex.company}</span>
+                        <span>role:${ex.role_experience}</span>
+                        <span>date to :${ex.date_from}</span>
+                        <span>date from:${ex.date_to}</span>
+                        
+                    </div>
+                    `
+                }
+                break
+       
+            }
+            }
+        
+             
+            
+            
+        })
+        
+    }
+    function cancel() {
+           document.getElementById("button_cancell_").addEventListener("click",()=>{
+             
+           person_info_.style.display="none"
+       })
+    }
+
+    add__lisner_to_raficher_info(disply_workers_container)
+
+
+//))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+//=======================Fonctions de display=========================//
+function get_data_from_localstorage_and_disply(){
+
+    for(emp of Parsed_data){
+       if(emp.is_pointed==true){
+        
+   document.getElementById(emp.zone_worked).innerHTML+=
+        `
+                         <div id="profile" data-id="${emp.id}" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
+                        <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${emp.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
+                        <span style="cursor: default; font-weight: 800;">${emp.name}</span>
+                        <span style=" cursor: default;  padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${emp.role}</span>
+                        
+                        <button data-id="${emp.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/remove_circle_29dp_EA3323.png); background-size: cover; position: relative;top:0;" id="add_or_remove"></button>
+                        </div> 
+                             
+        `
+       }
+    }
+    calcule_emploiyeers_notassigned()
 }
+get_data_from_localstorage_and_disply()
+
+//))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+//function to desplay workers in side bar 
+function Disply_Workers(){
+    for(let User of Parsed_data){
+    if(User.is_pointed==false){
+
+        disply_workers_container.innerHTML +=
+       `<div data-id="${User.id}" class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
+            <div data-id="${User.id}">
+            <img src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="" style="width: 50px;">
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;" data-id="${User.id}">
+            <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
+            <div style="display: flex;" data-id="${User.id}">
+            <h1 style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role} | <span style="background-color: red; font-size="10px"; padding: 4px; border-radius: 5px; margin: 0px 10px;">Not Worked</span></h1>
+            </div>
+            </div>
+            
+            </div>`
+                }
+                }
+
+   
+            
+    document.getElementById("add_worker").addEventListener("click", showAddWorkerModal);
+    
+    document.getElementById("button_cancel").addEventListener("click", hideAddWorkerModal);  
+}
+
+Disply_Workers()
+//))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+//function update data in localstorage
+function update_data_in_localstorage(){
+    calcule_emploiyeers_notassigned()
+    localStorage.setItem("users",JSON.stringify(Parsed_data))
+}
+
+//))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+function add__lisner_to_remove_element_in_zone(container_){
+    container_.addEventListener("click",(e)=>{
+
+        if(e.target.closest("button")){
+            
+            const card=e.target.closest("button")
+            const id_cliked  = card.dataset.id 
+            console.log(card)
+            
+            for(emploiyer of Parsed_data){
+               if(emploiyer.id==id_cliked&&emploiyer.is_pointed==true){
+                    console.log("i")
+                    emploiyer.is_pointed=false
+                    emploiyer.zone_worked=null
+                    update_data_in_localstorage()
+                    break
+                }
+            }
+            window.location.reload()
+        }
+        else{
+
+            add__lisner_to_raficher_info(container_) 
+            
+        } 
+             
+        })
+
+        
+    }
+    let container_Salle_de_conférence = document.getElementById("display_persons_conférence")
+    let container_Réception = document.getElementById("display_persons_Réception")
+    let container_Salle_des_serveurs = document.getElementById("display_persons_serveurs")
+    let container_Salle_de_sécurité = document.getElementById("display_persons_sécurité")
+    let container_Salle_du_personnel = document.getElementById("display_persons_personnel")
+    let container_Salle_darchives = document.getElementById("display_persons_d’archives")
+        
+        
+        
+    add__lisner_to_remove_element_in_zone(container_Salle_de_conférence)
+    add__lisner_to_remove_element_in_zone(container_Réception)
+    add__lisner_to_remove_element_in_zone(container_Salle_des_serveurs)
+    add__lisner_to_remove_element_in_zone(container_Salle_de_sécurité)
+    add__lisner_to_remove_element_in_zone(container_Salle_du_personnel)
+    add__lisner_to_remove_element_in_zone(container_Salle_darchives)
+
+    //)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))
+
+function is_posible_to_add_emploiyer(){
+         if(emploiyer_selected<limet_zones(zone_ckliked_id)){
+            return true
+         }
+         else{
+            return false
+         }
+    }
+
+   function limet_zones(zone){
+    let limit =0
+   for(zone_ of Object.entries(limits) ){
+       if(zone_[0]==zone){
+        limit= zone_[1]
+        break;
+       
+       }
+   }
+   return limit
+   }
+
+    function get_legnth_of_emploiyes_in_zone(zone){
+        let count=0
+        for(emp of Parsed_data){
+            if(emp.zone_worked==zone){
+                count++
+            }
+        }
+        return count
+    }
+
+
+
+    function calcule_emploiyeers_notassigned(){
+        let not_assgned =0
+        let assgned =0
+        for(emp of Parsed_data){
+            if(!emp.is_pointed){
+               not_assgned++
+            }else{
+              assgned++
+            }
+        }
+        document.getElementById("total_not_assgned").textContent=`Unassigned:${not_assgned.toString()}`
+        document.getElementById("total_assigned_").textContent=`Assigned:${assgned.toString()}`
+    }
+
+
+    function disply_bacground_red_(){
+        
+        for(zone of zones_ids){
+            let count =false
+            for(data of Parsed_data){
+                if(data.zone_worked==zone){
+                    count = true
+                    break
+                    
+                   }
+            } 
+            if(!count){
+             
+               document.getElementById("con_"+zone).style.backgroundColor="#ef000035"
+               }else continue
+               
+       }
+       
+       
+    }
+    disply_bacground_red_()
+//)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))//
+
+
+
+button_hide_nav.addEventListener("click",()=>{
+if(disply_workers_container.style.display=="flex"||disply_workers_container.style.display=="block"){
+
+    disply_workers_container.style.display="none" 
+    nav_bar.style.height="fit-content" 
+    
+
+}else{
+    disply_workers_container.style.display="block" 
+     nav_bar.style.height="75vh" 
+     
+}
+
+})
+
+
+
+//{{{{{}}}}}}{{{{{}}}}}}}}}}}}}}}{{{{{{{ Form functions }}}}}}}}}}}}}{{{{}}}}}}}}}}}}}}}}}}}}}}}}}}}//
+
+
 //======================== add image to the input if you coole link ========================//
             function Disply_Img(){
                 input_img_url.addEventListener("keyup",()=>{
@@ -461,42 +576,6 @@ function calcule_emploiyeers_notassigned(){
 
             valide_date_lisner()
 
-//=======================================================================//
-//**************************[Functions]*******************************
-//======================================================================//
-
-//======================================================================//
-
-//function update data in localstorage
-function update_data_in_localstorage(){
-    calcule_emploiyeers_notassigned()
-    localStorage.setItem("users",JSON.stringify(Parsed_data))
-}
-
-//=======================Fonctions de display=========================//
-function get_data_from_localstorage_and_disply(){
-
-    for(emp of Parsed_data){
-       if(emp.is_pointed==true){
-        
-   document.getElementById(emp.zone_worked).innerHTML+=
-        `
-                         <div id="profile" data-id="${emp.id}" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
-                        <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${emp.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
-                        <span style="cursor: default; font-weight: 800;">${emp.name}</span>
-                        <span style=" cursor: default;  padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${emp.role}</span>
-                        
-                        <button data-id="${emp.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/remove_circle_29dp_EA3323.png); background-size: cover; position: relative;top:0;" id="add_or_remove"></button>
-                        </div> 
-                             
-        `
-       }
-    }
-    calcule_emploiyeers_notassigned()
-}
-
-//Function to show add worker modal
-get_data_from_localstorage_and_disply()
 function showAddWorkerModal() {
 
     nav_bar.style.display = "none";
@@ -510,93 +589,6 @@ function hideAddWorkerModal() {
     nav_bar.style.display = "block";
     set_opacity(false);
 }
-
-
-//function if click to button add worker in chacke zone displey all workers qui interess of this zone
-function Disply_worker_by_sale(sale){
-    container_display_workers_in_zone_.innerHTML=""  
-    let counter=0
-
-   
-    // container_display_workers_in_zone_.innerHTML =""
-    
-    let roles = {
-        "Reception": ["Manager", "Réceptionniste", "Nettoyage"],
-        "Salle des serveurs" : ["Manager", "Technicien IT", "Nettoyage"],
-        "Salle de sécurité":["Manager", "Agent de sécurité", "Nettoyage"],
-        "Salle du personnel": ["Manager", "Réceptionniste", "Technicien IT", "Agent de sécurité", "Nettoyage", "Autres"],
-        "Salle de conférence": ["Manager", "Réceptionniste", "Technicien IT", "Agent de sécurité", "Nettoyage", "Autres"],
-        "Salle d'archives": ["Manager"]
-    }
-    
-
-    for(let [room, roomRoles] of Object.entries(roles)){
-       
-        if(room == sale){
-            for(let a of roomRoles){    
-                        
-                for(let User of Parsed_data){
-                    if(User.role==a && User.is_pointed==false){
-                    
-                         container_disply_workeres_.style.display="flex"
-                      counter++
-                       container_display_workers_in_zone_.innerHTML +=`
-
-                         <div class="" data-id="${User.id}" id="profile" style="cursor: pointer; display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
-                        <img style="  width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
-                        <span style=" font-weight: 800;">${User.name}</span>
-                        <span style="  padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role}</span>
-                       
-                        
-                        </div> 
-                        `
-
-                   
-                    }
-                }
-                
-            }
-
-
-            if(counter==0){
-                // window.location.reload()
-            }
-        }
-    }
-}
-
-
-//function to desplay workers in side bar (if not assined in zones)
-function Disply_Workers(){
-    for(let User of Parsed_data){
-    if(User.is_pointed==false){
-
-        disply_workers_container.innerHTML +=
-            `<div data-id="${User.id}" class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
-            <div data-id="${User.id}">
-            <img src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="" style="width: 50px;">
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 10px;" data-id="${User.id}">
-            <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
-            <div style="display: flex;" data-id="${User.id}">
-            <h1 style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role} | <span style="background-color: red; font-size="10px"; padding: 4px; border-radius: 5px; margin: 0px 10px;">Not Worked</span></h1>
-            </div>
-            </div>
-            
-            </div>`
-                }
-                }
-
-   
-            
-    document.getElementById("add_worker").addEventListener("click", showAddWorkerModal);
-    
-    document.getElementById("button_cancel").addEventListener("click", hideAddWorkerModal);  
-}
-
-Disply_Workers()
-
-//=========================Form functions=========================//
 
 //function to set opacity if form is opned
 function set_opacity(is_set){
