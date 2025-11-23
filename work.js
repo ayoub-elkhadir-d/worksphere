@@ -356,7 +356,7 @@ function calcule_emploiyeers_notassigned(){
            count++
         }
     }
-    document.getElementById("total_not_assgned").textContent=count.toString()
+    document.getElementById("total_not_assgned").textContent=`Unassigned:${count.toString()}`
 }
 //======================== add image to the input if you coole link ========================//
             function Disply_Img(){
@@ -553,24 +553,7 @@ function Disply_Workers(){
                 }
                 }
 
-    disply_workers_container.innerHTML += `
-        <button id="add_worker" style="
-        position: sticky;
-            bottom: 0;
-            height: 40px;
-            padding: 0 !important;
-            line-height: 40px;
-            width: 50%;
-            background-color: #41cc4d;
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 0.9rem;
-            text-align: center;
-            margin-top: 10px;
-            display: block;">
-            add worker
-            </button>`;
+   
             
     document.getElementById("add_worker").addEventListener("click", showAddWorkerModal);
     
