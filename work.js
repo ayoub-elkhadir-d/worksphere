@@ -1,6 +1,7 @@
 //================= containers declared ======================//
 let container_ =document.querySelector(".container")
-let _container_add_worker =document.getElementById("container_add_worker")
+
+
 let disply_workers_container = document.getElementById("disply_workers")
 let person_info_ = document.getElementById("person_info")
 
