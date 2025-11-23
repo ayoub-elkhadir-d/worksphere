@@ -42,9 +42,6 @@ let zone_ckliked_id=null
 let emploiyer_selected=0
 let arr_button_ids_clicked=[]
 //=======================================================================//
-///////////////////////////////[Lissners]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-
 let limits = {
 "display_persons_Réception":5,
 "display_persons_serveurs" :3,
@@ -53,10 +50,13 @@ let limits = {
 "display_persons_conférence":5,
 "display_persons_d’archives":2
 }
+//=======================================================================//
+///////////////////////////////[Lissners]\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //======================================================================//
 // localStorage.removeItem("users")
 
 calcule_emploiyeers_notassigned()
+
 //===============Added pressure on updates within Zone================//
 
 function add_click_to_elements_of_div(container_){
@@ -64,46 +64,23 @@ function add_click_to_elements_of_div(container_){
     // let emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
     container_.addEventListener("click",(e)=>{
         const card=e.target.closest("div")
+       
         const id_cliked  = card.dataset.id 
 
         if(card.classList.value==""){
             if(is_posible_to_add_emploiyer()){
             emploiyer_selected++   
             arr_button_ids_clicked.push(id_cliked)
-            
-            
             card.classList.add("card_checked")
-            
         }
-        else if(is_posible_to_add_emploiyer()==null){
-            for (let elm = 0; elm <container_.childNodes.length ; elm++) {
-                 if(container_.childNodes[elm].dataset){
-                    if(!arr_button_ids_clicked.includes(container_.childNodes[elm].dataset.id))
-                    container_.childNodes[elm].style.opacity="0.2";
-
-                 }else{
-                    continue
-                 }
-                
-                
-            }
+        if(!is_posible_to_add_emploiyer()){
+           container_.style.cursor= "not-allowed";
         }
-            
-            // for(emploiyer of Parsed_data){
- 
-                
-            //      if(emploiyer.zone_worked==null){
-            //     }
-            // }
-            
-           //console.log(container_.childNodes.length)
-        
     }else {
         emploiyer_selected --
         arr_button_ids_clicked.splice(id_cliked,1)
-
-        card.classList.remove("card_checked")
-        
+         container_.style.cursor= "default";
+        card.classList.remove("card_checked")   
          }
         })
     }
@@ -114,8 +91,7 @@ function add_click_to_elements_of_div(container_){
                 if(arr_button_ids_clicked.includes(emploiyer.id)&&emploiyer.is_pointed==false){
                     emploiyer.is_pointed=true
                     emploiyer.zone_worked=zone_ckliked_id
-                    update_data_in_localstorage()
-                    
+                    update_data_in_localstorage()                 
                 }
             }
               
@@ -123,20 +99,20 @@ function add_click_to_elements_of_div(container_){
         })
             
 
-
-
+//======================== aficher info of persone ===================================//
     function add__lisner_to_raficher_info(container_){
         person_info_.innerHTML=""
         
     container_.addEventListener("click",(e)=>{
         
         const card=e.target.closest("div")
-        const id_cliked  = card.dataset.id 
+        let a = card.querySelector("img")
+        const id_cliked  = a.dataset.id 
          console.log(id_cliked)
         
-    for(emploiyer of Parsed_data){
-  
+    for(emploiyer of Parsed_data){  
               person_info_.style.display="flex"
+              if(emploiyer.id == id_cliked){
                 person_info_.innerHTML=
                 `
             <div style="display: flex;width: 100%; justify-content: flex-end;">
@@ -144,12 +120,12 @@ function add_click_to_elements_of_div(container_){
             </div>
                 <img src="imges/${emploiyer.input_img_url}" style="height: 50px;width: 50px;" alt="">
                     <span style="font-weight: 800;text-align: center; cursor: pointer;">${emploiyer.name}</span>
-                    <span style="cursor: pointer;">Role :${emploiyer.role}</span>
-                    <span style="cursor: pointer;">email :${emploiyer.email}</span>
-                    <span style="cursor: pointer;">num :${emploiyer.input_num_tele} </span>
+                    <span style="cursor: default;">Role :${emploiyer.role}</span>
+                    <span style="cursor: default;">email :${emploiyer.email}</span>
+                    <span style="cursor: default;">num :${emploiyer.input_num_tele} </span>
                     <div>
                 <div id="container_experiences" style="display: flex;flex-direction: column; gap: 10px; height: 150px; overflow-y: scroll;">
-                    <span style="font-weight: 800;text-align: center; position: sticky;top: 0px;background-color: #A1A1A1;">Experiences</span>
+                    <span style=" cursor: default; font-weight: 800;text-align: center; position: sticky;top: 0px;background-color: #A1A1A1;">Experiences</span>
 
 
              </div>
@@ -174,19 +150,16 @@ function add_click_to_elements_of_div(container_){
             
         
              
-           
+          } 
    
         })
         
     }
+    //==============================function helps===============================//
     function is_posible_to_add_emploiyer(){
          if(emploiyer_selected<limet_zones(zone_ckliked_id)){
             return true
-         }else if(emploiyer_selected==limet_zones(zone_ckliked_id)){
-            
-            return null
-         }
-         else{
+         }else{
             return false
          }
     }
@@ -213,6 +186,16 @@ function add_click_to_elements_of_div(container_){
         return count
     }
 
+    function calcule_emploiyeers_notassigned(){
+    let count =0
+    for(emp of Parsed_data){
+        if(!emp.is_pointed){
+           count++
+        }
+    }
+    document.getElementById("total_not_assgned").textContent=count.toString()
+}
+//============================ remove element in zone ====================================//
 
 
     function add__lisner_to_remove_element_in_zone(container_){
@@ -233,8 +216,8 @@ function add_click_to_elements_of_div(container_){
                 }
             }
             window.location.reload()
-        }else{
-
+        }
+        else{
             add__lisner_to_raficher_info(container_) 
             cancel()
         } 
@@ -250,6 +233,7 @@ function add_click_to_elements_of_div(container_){
         person_info_.style.display="none"
     })
  }
+
     let container_Salle_de_conférence = document.getElementById("display_persons_conférence")
     let container_Réception = document.getElementById("display_persons_Réception")
     let container_Salle_des_serveurs = document.getElementById("display_persons_serveurs")
@@ -267,7 +251,7 @@ function add_click_to_elements_of_div(container_){
     add__lisner_to_remove_element_in_zone(container_Salle_darchives)
     
     
-//=========================================================================//
+//============================= hide nav bar ===================================//
 button_hide_nav.addEventListener("click",()=>{
 if(disply_workers_container.style.display=="flex"||disply_workers_container.style.display=="block"){
 
@@ -283,9 +267,7 @@ if(disply_workers_container.style.display=="flex"||disply_workers_container.styl
 
 })
 
-
-
-    //======================== Clicking the + button inside each zone ========================//
+//======================== Clicking the + button inside each zone ========================//
     
     let _Salle_de_conférence = document.getElementById("Salle_de_conférence")
     let _Réception = document.getElementById("Réception")
@@ -308,7 +290,7 @@ if(disply_workers_container.style.display=="flex"||disply_workers_container.styl
 _Réception.addEventListener("click", () => {
                 zone_ckliked_id="display_persons_Réception"
                 Disply_worker_by_sale("Reception")
-            emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
+               emploiyer_selected=get_legnth_of_emploiyes_in_zone(zone_ckliked_id)
                 
             })
 
@@ -351,15 +333,7 @@ Select_Role.addEventListener("change",()=>{
             // }
             //console.log(check_date("21/10/2006","21/1/2006"))
 
-function calcule_emploiyeers_notassigned(){
-    let count =0
-    for(emp of Parsed_data){
-        if(!emp.is_pointed){
-           count++
-        }
-    }
-    document.getElementById("total_not_assgned").textContent=count.toString()
-}
+
 //======================== add image to the input if you coole link ========================//
             function Disply_Img(){
                 input_img_url.addEventListener("keyup",()=>{
@@ -449,10 +423,10 @@ function get_data_from_localstorage_and_disply(){
         
    document.getElementById(emp.zone_worked).innerHTML+=
         `
-                         <div id="profile" data-id="${emp.id}" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
-                        <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${emp.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
-                        <span style="font-weight: 800;">${emp.name}</span>
-                        <span style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${emp.role}</span>
+                         <div  id="profile"  style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
+                        <img data-id="${emp.id}" style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${emp.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
+                        <span style=" cursor: default; font-weight: 800;">${emp.name}</span>
+                        <span style=" cursor: default; padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${emp.role}</span>
                         
                         <button data-id="${emp.id}" style="height: 25px; width: 25px; display: flex;  border-radius: 100%; align-items: center; justify-content: center; background-image: url(imges/remove_circle_29dp_EA3323.png); background-size: cover; position: relative;top:0;" id="add_or_remove"></button>
                         </div> 
@@ -509,10 +483,10 @@ function Disply_worker_by_sale(sale){
                       counter++
                        container_display_workers_in_zone_.innerHTML +=`
 
-                         <div class="" data-id="${User.id}" id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
-                        <img style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
-                        <span style="font-weight: 800;">${User.name}</span>
-                        <span style="padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role}</span>
+                         <div class=""  id="profile" style="display: flex;flex-direction: column; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 5px 5px; align-items: center;background-color:"#E7E7E7">
+                        <img  style="width: 50px;height: 50px; border: none; border-radius: 100%;" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="">
+                        <span style=" cursor: default; font-weight: 800;">${User.name}</span>
+                        <span style=" cursor: default; padding: 0px; margin: 0px; font-size: 12px; background-color: yellow;">${User.role}</span>
                        
                         
                         </div> 
@@ -541,7 +515,7 @@ function Disply_Workers(){
         disply_workers_container.innerHTML +=
             `<div class="worker" style="display: flex; justify-content: space-evenly; border-radius: 5px; box-shadow: 0px 0px 10px rgb(52, 52, 52); padding: 15px 0px; align-items: center;">
             <div>
-            <img src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="" style="width: 50px;">
+            <img data-id="${User.id}" src="${User.input_img_url}" onerror="this.src='imges/logo-person-removebg-preview.png'" alt="" style="width: 50px;">
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px;">
             <h1 class="name" style="padding: 0px; margin: 0px; font-size: 20px;">${User.name}</h1>
@@ -576,6 +550,8 @@ function Disply_Workers(){
     document.getElementById("add_worker").addEventListener("click", showAddWorkerModal);
     
     document.getElementById("button_cancel").addEventListener("click", hideAddWorkerModal);  
+     add__lisner_to_raficher_info(disply_workers_container) 
+            cancel()
 }
 
 Disply_Workers()
