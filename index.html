@@ -55,7 +55,7 @@
    <label style="align-self: center; font-weight: 800; font-size: 1.5rem; ">Experience</label>
     <input type="text" id="input_company" name="company" placeholder="entre company">
     <input type="rolr" placeholder="entre role" name="role experience" id="role_experience">
-    <div style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap;">
+    <div style="display: flex; justify-content: space-around; align-items: center; ">
         <h5>From</h5>
     <input type="date" id="date_from" name="date from" placeholder="date from">
     <h5>To</h5>
@@ -98,50 +98,54 @@
 
 </div>
 <div class="parent">
+ <div class="sales1" style="display: flex;flex-direction: column;flex: 1;gap:10px;height: 100%;"> 
     <div class="div1" style="display: flex; flex-direction: column; justify-content: space-around;">
         <h3 style="align-self: center;background-color: white; padding: 2px;border-radius: 2px; ">Salle de conférence</h3>
-<div id="display_persons_conférence" style="display: flex; gap: 10px;overflow-y: scroll; overflow-y: hidden; max-width: 95%;padding: 5px;"></div>
+      <div id="display_persons_conférence" style="display: flex; gap: 10px;overflow-y: scroll; overflow-y: hidden; max-width: 95%;padding: 5px;"></div>
 
 
  <button style="width: fit-content; padding: 5px 10px; height: 40px; background-color: #2596be; border: none; border-radius: 10px; color: white; font-size: 1.2rem;" id ="Salle_de_conférence">+</button>
  
     </div>
 
-    <div class="div2" style="display: flex; flex-direction: column; justify-content: space-around;">
+    <div class="div7" style="display: flex; flex-direction: column; justify-content: space-around;">
+        <h3 style="align-self: center;background-color: white; padding: 2px;border-radius: 2px; ">Salle de sécurité</h3>
+         <div id="display_persons_sécurité" style="display: flex; overflow-y: scroll; overflow-y: hidden; max-width: 75%;padding: 5px; gap: 10px;"></div>
+    
+    <button style="width: fit-content; padding: 5px 10px; height: 40px; background-color: #2596be; border: none; border-radius: 10px; color: white; font-size: 1.2rem;" id="Salle_de_sécurité">+</button>
        
     </div>
+ </div> 
 
+    <!-- <div class="div2" style="display: flex; flex-direction: column; justify-content: space-around;">
+       
+    </div> -->
+<div class="sales2" style="display: flex;flex-direction: column;flex: 1;gap:10px;height: 100%; ">
     <div class="div4" style="display: flex; flex-direction: column; justify-content: space-around;">
             <h3 style="align-self: center;background-color: white; padding: 2px;border-radius: 2px; ">Réception</h3>
-               <div id="display_persons_Réception" style="display: flex;  gap: 10px; overflow-y: scroll; overflow-y: hidden; max-width: 75%;height: 100%"></div>
+               <div id="display_persons_Réception" style="display: flex;  gap: 10px; overflow-y: scroll;height: 100%"></div>
                
              
                <button style="width: fit-content; padding: 5px 10px; height: 40px; background-color: #2596be; border: none; border-radius: 10px; color: white; font-size: 1.2rem;" id="Réception">+</button>
        
     </div>
-    <div class="div5" style="display: flex; flex-direction: column; justify-content: space-around;">
+    <!-- <div class="div5" style="display: flex; flex-direction: column; justify-content: space-around;">
        
-    </div>
+    </div> -->
     <div class="div6" style="display: flex; flex-direction: column; justify-content: space-around;">
                  <h3 style="align-self: center;background-color: white; padding: 2px;border-radius: 2px; ">sale de serveurs</h3>
-               <div id="display_persons_serveurs" style="display: flex; overflow-y: scroll; overflow-y: hidden; max-width: 75%;padding: 5px; gap: 10px;"></div>
+               <div id="display_persons_serveurs" style="display: flex; overflow-y: scroll;  max-width: 75%;padding: 5px; gap: 10px;"></div>
 
 <button style="width: fit-content; padding: 5px 10px; height: 40px; background-color: #2596be; border: none; border-radius: 10px; color: white; font-size: 1.2rem;" id="Salle_des_serveurs">+</button>
 </div>
 
-
-    <div class="div7" style="display: flex; flex-direction: column; justify-content: space-around;">
-        <h3 style="align-self: center;background-color: white; padding: 2px;border-radius: 2px; ">Salle de sécurité</h3>
-         <div id="display_persons_sécurité" style="display: flex; overflow-y: scroll; overflow-y: hidden; max-width: 75%;padding: 5px; gap: 10px;"></div>
-
- <button style="width: fit-content; padding: 5px 10px; height: 40px; background-color: #2596be; border: none; border-radius: 10px; color: white; font-size: 1.2rem;" id="Salle_de_sécurité">+</button>
-       
-    </div>
+</div>
 
 
+<div class="sales3" style="display: flex;flex-direction: column;flex: 1;gap:10px;height: 100%; " style=" width: 100%;">
     <div class="div8" style="display: flex; flex-direction: column; justify-content: space-around;">
         <h3 style="align-self: center;background-color: white; padding: 2px;border-radius: 2px; ">Salle du personnel</h3>
-                    <div id="display_persons_personnel" style="display: flex; overflow-y: scroll; overflow-y: hidden; max-width: 75%;padding: 5px; gap: 10px;"></div>
+                    <div id="display_persons_personnel" style="display: flex; overflow-y: scroll;  padding: 5px; gap: 10px;"></div>
                <button style="width: fit-content; padding: 5px 10px; height: 40px; background-color: #2596be; border: none; border-radius: 10px; color: white; font-size: 1.2rem;" id="Salle_du_personnel">+</button>
      
     </div>
@@ -154,6 +158,8 @@
                
         
 </div>
+</div>
+
  </div>   
 </body>
 <script src="work.js">  </script>
