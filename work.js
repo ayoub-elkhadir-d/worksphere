@@ -350,13 +350,17 @@ Select_Role.addEventListener("change",()=>{
             //console.log(check_date("21/10/2006","21/1/2006"))
 
 function calcule_emploiyeers_notassigned(){
-    let count =0
+    let not_assgned =0
+    let assgned =0
     for(emp of Parsed_data){
         if(!emp.is_pointed){
-           count++
+           not_assgned++
+        }else{
+          assgned++
         }
     }
-    document.getElementById("total_not_assgned").textContent=`Unassigned:${count.toString()}`
+    document.getElementById("total_not_assgned").textContent=`Unassigned:${not_assgned.toString()}`
+    document.getElementById("total_assigned_").textContent=`Assigned:${assgned.toString()}`
 }
 //======================== add image to the input if you coole link ========================//
             function Disply_Img(){
@@ -688,6 +692,17 @@ window.addEventListener('click', function(e) {
         }
     }
 });
+function responsive_help(){
+
+}
+window.addEventListener("resize", (event) => { 
+    
+    if(window.screen.width< 760){
+      disply_workers_container.style.display="none" 
+    nav_bar.style.height="fit-content" 
+    }
+
+})
 //===================================================================//
 
 //===================================================================//                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

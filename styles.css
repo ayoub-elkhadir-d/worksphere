@@ -31,6 +31,9 @@ nav{
      background-color: #7e7e7e;
      border-radius: 10px;
      box-shadow: 0px 0px 10px rgb(0, 0, 0);
+     position: sticky;
+     top: 0px;
+     z-index: 300;
 }
 body{
     display: flex;
@@ -189,53 +192,36 @@ h1{
     
 }
 @media (max-width: 1279px) {
-    .container {
-     flex-direction: column;
-     transition: all 5s;
-     
-}
+
 .sales3{
     flex-direction: row !important;
 }
 .div8 , .div9{
     width: 100%;
 }
-.right_bar{
-    /* width: 60%; */
-   display: none !important;
-   
-}
+
 }
 @media (max-width: 1024px) {
 
 .sales3{
     flex-direction: column !important;
 }
-   .right_bar{
-    /* width: 60%; */
-    display: none;
-       
 
 }
-}
-@media (max-width: 750px) {
 
-   .right_bar{
-    /* width: 60%; */
-    display: none;
-   
-}
-}
 @media (max-width: 560px) {
     .parent{
         overflow-y: scroll;
 
     }
+    #label_nav{
+        font-size:0.8rem !important;
+    }
+    #div_con{
+     flex-direction: column;
+    }
 
-   .right_bar{
-    /* width: 60%; */
-    display: none;
-}
+
 
 }
 @media (max-width: 360px) {

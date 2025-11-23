@@ -8,7 +8,32 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" /></head>
 <body style="position: relative;">
 
+  <nav style="display: flex; justify-content: space-around; align-items: center;">
+    <h1 id="label_nav" style="font-size: 1.5rem; color: white;">WorkSphere - Virtual Workspace</h1>
+    <div id="div_con" style="display: flex; gap: 20px;">
+         <h1 id="total_not_assgned" style="color: white; background-color: rgb(174, 77, 77);box-shadow: 0px 0px 10px rgb(255, 18, 18); padding:5px;  font-size:1rem; ">Unassigned : 5</h1>
+         <h1 id="total_assigned_" style="color: white; background-color: rgba(4, 255, 0, 0.4);box-shadow: 0px 0px 10px rgb(0, 255, 72); padding:5px;  font-size:1rem; ">Assigned : 5</h1>
+    </div>
+   
+   <button id="add_worker" style="
+        position: sticky;
+            bottom: 0;
+            height: 40px;
+            padding: 0 !important;
+            line-height: 40px;
+            width: 100px;
+            background-color: #41cc4d;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 10px;
+            display: block;">
+            add worker
+            </button>
 
+</nav>
 
 <div class="container"  style="position: relative; display: flex; justify-content: center; align-items: center;">
 
@@ -78,7 +103,6 @@
 
 <div class="right_bar" id="right_bar" style="display: flex;height:70vh;overflow-y: auto; flex-direction: column;position: relative;width: fit-content; ">
     <div style="position: relative;width: fit-content;">
-        <h1 id="total_not_assgned" style="position: absolute;top: -10px;right: 0px;background-color: #f95959; border-radius: 20px;font-size: 12px; color: #F4F4F6;padding: 5px;">0</h1>
     <button id="button_hide_nav" style="
     background-color: #A1A1A1;
      border: none;
