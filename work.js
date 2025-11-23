@@ -503,6 +503,7 @@ function Disply_worker_by_sale(sale){
                         
                 for(let User of Parsed_data){
                     if(User.role==a && User.is_pointed==false){
+                    
                          container_disply_workeres_.style.display="flex"
                       counter++
                        container_display_workers_in_zone_.innerHTML +=`
@@ -698,7 +699,7 @@ window.addEventListener('click', function(e) {
     const isClickOnAddButton = zones_buttons.includes(e.target.id) ;
     if (container_disply_workeres_.style.display == "flex") {
         if (!isClickInsideModal && !isClickOnAddButton) {
-      
+     
            container_disply_workeres_.style.display = "none"
 
         }
